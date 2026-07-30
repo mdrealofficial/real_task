@@ -130,10 +130,17 @@
     /* Content Area: Kanban vs List */
     .content-viewport { flex: 1; padding: 20px; overflow-x: auto; overflow-y: auto; }
 
-    /* Kanban Board */
-    .kanban-board { display: flex; gap: 16px; height: 100%; min-width: 900px; }
+    /* Kanban Board (Side-by-Side Columns) */
+    .kanban-grid, .kanban-board {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 16px;
+      align-items: flex-start;
+      width: 100%;
+      min-width: 960px;
+    }
     .kanban-col {
-      flex: 1; min-width: 240px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);
+      flex: 1; min-width: 230px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);
       display: flex; flex-direction: column; max-height: 100%;
     }
     .kanban-header {
