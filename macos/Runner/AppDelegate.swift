@@ -11,14 +11,18 @@ class AppDelegate: FlutterAppDelegate {
     // Create Apple Top Menu Bar Status Item
     statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     if let button = statusItem?.button {
-      button.image = NSImage(systemSymbolName: "checkmark.square.fill", accessibilityDescription: "Task Flow")
+      if #available(macOS 11.0, *) {
+        button.image = NSImage(systemSymbolName: "checkmark.square.fill", accessibilityDescription: "Task Flow")
+      } else {
+        button.image = NSImage(named: NSImage.menuOnStateTemplateName)
+      }
       button.action = #selector(showWindow)
       button.target = self
     }
 
     // Create Menu Bar Context Menu
     let menu = NSMenu()
-    let titleItem = NSMenuItem(title: "Task Flow v1.0.5", action: nil, keyEquivalent: "")
+    let titleItem = NSMenuItem(title: "Task Flow v1.0.8", action: nil, keyEquivalent: "")
     titleItem.isEnabled = false
     menu.addItem(titleItem)
     menu.addItem(NSMenuItem.separator())
