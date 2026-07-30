@@ -1,10 +1,8 @@
 @extends('layouts.app')
 
-@section('title', "Today's Tasks — Task Flow")
-
 @section('content')
-<div class="app-wrapper">
-  <!-- Sidebar -->
+<div class="app-layout">
+  <!-- Sidebar Navigation -->
   <aside class="sidebar" id="appSidebar">
     <div class="sidebar-header">
       <div class="brand">
@@ -15,75 +13,90 @@
     </div>
 
     <div class="sidebar-menu">
-      <a href="{{ route('dashboard', ['category' => 'today']) }}" class="nav-item {{ $category === 'today' ? 'active' : '' }}">
-        <i class="fa-regular fa-calendar-check"></i> <span class="nav-text">Today</span> <span class="nav-badge">{{ $totalCount }}</span>
-      </a>
-      <a href="{{ route('dashboard', ['category' => 'upcoming']) }}" class="nav-item {{ $category === 'upcoming' ? 'active' : '' }}">
-        <i class="fa-regular fa-calendar"></i> <span class="nav-text">Upcoming</span>
-      </a>
-      <a href="{{ route('dashboard', ['category' => 'inbox']) }}" class="nav-item {{ $category === 'inbox' ? 'active' : '' }}">
-        <i class="fa-solid fa-inbox"></i> <span class="nav-text">Inbox & Backlog</span>
-      </a>
-      <a href="{{ route('dashboard', ['category' => 'recurring']) }}" class="nav-item {{ $category === 'recurring' ? 'active' : '' }}">
-        <i class="fa-solid fa-arrows-rotate"></i> <span class="nav-text">Recurring Tasks</span>
+      <a href="{{ route('dashboard', ['category' => 'today']) }}" class="nav-item {{ ($category ?? 'today') === 'today' ? 'active' : '' }}">
+        <i class="fa-regular fa-calendar-check" style="color: var(--primary);"></i>
+        <span>Today</span>
+        <span class="nav-badge">{{ $tasks->where('status', '!=', 'done')->count() }}</span>
       </a>
 
-      <div class="nav-section-title" style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin: 16px 8px 8px;">PROJECTS & TAGS</div>
-      <a href="{{ route('dashboard', ['category' => 'work']) }}" class="nav-item {{ $category === 'work' ? 'active' : '' }}"><i class="fa-solid fa-folder" style="color: var(--accent-amber);"></i> <span class="nav-text">Work & Dev</span></a>
-      <a href="{{ route('dashboard', ['category' => 'personal']) }}" class="nav-item {{ $category === 'personal' ? 'active' : '' }}"><i class="fa-solid fa-user" style="color: var(--accent-cyan);"></i> <span class="nav-text">Personal</span></a>
-      <a href="{{ route('dashboard', ['category' => 'health']) }}" class="nav-item {{ $category === 'health' ? 'active' : '' }}"><i class="fa-solid fa-heart" style="color: var(--accent-rose);"></i> <span class="nav-text">Health & Wellness</span></a>
+      <a href="{{ route('dashboard', ['category' => 'inbox']) }}" class="nav-item {{ ($category ?? '') === 'inbox' ? 'active' : '' }}">
+        <i class="fa-solid fa-inbox" style="color: #64748b;"></i>
+        <span>Inbox</span>
+      </a>
+
+      <a href="{{ route('dashboard', ['category' => 'upcoming']) }}" class="nav-item {{ ($category ?? '') === 'upcoming' ? 'active' : '' }}">
+        <i class="fa-regular fa-calendar-days" style="color: var(--accent-cyan);"></i>
+        <span>Upcoming</span>
+      </a>
+
+      <a href="{{ route('dashboard', ['category' => 'recurring']) }}" class="nav-item {{ ($category ?? '') === 'recurring' ? 'active' : '' }}">
+        <i class="fa-solid fa-rotate" style="color: #a855f7;"></i>
+        <span>Recurring Tasks</span>
+      </a>
+
+      <div style="margin: 16px 12px 6px; font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Projects & Tags</div>
+
+      <a href="{{ route('dashboard', ['category' => 'work']) }}" class="nav-item {{ ($category ?? '') === 'work' ? 'active' : '' }}">
+        <i class="fa-solid fa-folder" style="color: #f59e0b;"></i>
+        <span>Work & Dev</span>
+      </a>
+
+      <a href="{{ route('dashboard', ['category' => 'personal']) }}" class="nav-item {{ ($category ?? '') === 'personal' ? 'active' : '' }}">
+        <i class="fa-solid fa-user" style="color: #3b82f6;"></i>
+        <span>Personal</span>
+      </a>
+
+      <a href="{{ route('dashboard', ['category' => 'health']) }}" class="nav-item {{ ($category ?? '') === 'health' ? 'active' : '' }}">
+        <i class="fa-solid fa-heart" style="color: #ec4899;"></i>
+        <span>Health & Wellness</span>
+      </a>
     </div>
 
     <div class="sidebar-footer">
       <div class="user-info">
-        <div class="avatar">{{ strtoupper(substr(session('user_email', 'admin'), 0, 1)) }}</div>
-        <div class="user-email-text" style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ session('user_email', 'User') }}</div>
+        <div class="avatar"><i class="fa-solid fa-user"></i></div>
+        <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600;">
+          {{ session('user_email', 'mdreal.official@gmail.com') }}
+        </div>
       </div>
-      <div style="display:flex; justify-content:space-between; gap:6px;">
+      <div style="display: flex; gap: 8px;">
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.5</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.6</div>
     </div>
   </aside>
 
-  <!-- Main Content Canvas -->
+  <!-- Main Work Area -->
   <main class="main-canvas">
-    <!-- Top Navigation Header -->
+    <!-- Top Header -->
     <header class="top-header">
-      <button class="btn btn-outline mobile-menu-btn" onclick="toggleSidebar()" style="padding: 6px 10px;"><i class="fa-solid fa-bars"></i></button>
-      <h1 class="category-title">{{ ucfirst($category) }} Tasks</h1>
-
-      <form action="{{ route('dashboard') }}" method="GET" class="search-box">
-        <input type="hidden" name="category" value="{{ $category }}">
-        <input type="hidden" name="view" value="{{ $viewMode }}">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" name="search" class="form-control" placeholder="Search tasks..." value="{{ $search }}" onchange="this.form.submit()">
-      </form>
-
-      <div class="view-toggle">
-        <a href="{{ route('dashboard', ['category' => $category, 'view' => 'kanban', 'search' => $search]) }}" class="view-btn {{ $viewMode === 'kanban' ? 'active' : '' }}"><i class="fa-solid fa-table-columns"></i> Kanban</a>
-        <a href="{{ route('dashboard', ['category' => $category, 'view' => 'list', 'search' => $search]) }}" class="view-btn {{ $viewMode === 'list' ? 'active' : '' }}"><i class="fa-solid fa-list"></i> List</a>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="btn btn-outline" onclick="toggleSidebar()" style="padding: 6px 10px;"><i class="fa-solid fa-bars"></i></button>
+        <div class="category-title">{{ ucfirst($category ?? 'Today') }}'s Tasks</div>
       </div>
 
-      <button class="btn btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> New Task</button>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <form action="{{ route('dashboard') }}" method="GET" class="search-box">
+          <input type="hidden" name="category" value="{{ $category }}">
+          <input type="hidden" name="view" value="{{ $viewMode }}">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="search" class="form-control" placeholder="Search tasks..." value="{{ $search }}">
+        </form>
+
+        <div style="display: flex; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 2px;">
+          <a href="{{ route('dashboard', ['category' => $category, 'view' => 'list', 'search' => $search]) }}" class="btn {{ $viewMode === 'list' ? 'btn-primary' : 'btn-outline' }}" style="padding: 4px 10px; border:none;"><i class="fa-solid fa-list"></i></a>
+          <a href="{{ route('dashboard', ['category' => $category, 'view' => 'kanban', 'search' => $search]) }}" class="btn {{ $viewMode === 'kanban' ? 'btn-primary' : 'btn-outline' }}" style="padding: 4px 10px; border:none;"><i class="fa-solid fa-table-columns"></i></a>
+        </div>
+
+        <button class="btn btn-primary" onclick="openCreateModal()"><i class="fa-solid fa-plus"></i> New</button>
+      </div>
     </header>
 
-    <!-- Top Progress Bar -->
-    <div class="progress-bar-container">
-      <div class="progress-stats">
-        <div class="stat-pill">{{ $percentage }}% Completed</div>
-        <span style="color: var(--text-muted);">({{ $completedCount }} of {{ $totalCount }} tasks done)</span>
-      </div>
-      <div class="progress-line-track">
-        <div class="progress-line-fill" style="width: {{ $percentage }}%;"></div>
-      </div>
-    </div>
-
-    <!-- Main Content Viewport -->
-    <div class="content-viewport">
-      @if($viewMode === 'kanban')
-        <div class="kanban-board">
+    <!-- Content Workspace (Kanban vs List) -->
+    <div style="flex:1; overflow:auto; padding:20px;">
+      @if(($viewMode ?? 'kanban') === 'kanban')
+        <div class="kanban-grid">
           @php
             $statuses = [
               'backlog' => 'Backlog',
@@ -97,18 +110,31 @@
             @php
               $colTasks = $tasks->filter(fn($t) => ($t->status ?? 'todo') === $statusKey);
             @endphp
-            <div class="kanban-col">
+            <div class="kanban-col" ondragover="handleDragOver(event)" ondrop="handleDrop(event, '{{ $statusKey }}')">
               <div class="kanban-header">
                 <span>{{ $statusTitle }}</span>
                 <span class="kanban-count">{{ $colTasks->count() }}</span>
               </div>
               <div class="kanban-cards">
                 @foreach($colTasks as $t)
-                  <div class="task-card" onclick="document.getElementById('toggle-form-{{ $t->id }}').submit();">
+                  <div class="task-card" 
+                       draggable="true" 
+                       ondragstart="handleDragStart(event, '{{ $t->id }}')"
+                       onclick="openDetailModal('{{ $t->id }}', '{{ addslashes($t->title) }}', '{{ addslashes($t->description ?? '') }}', '{{ $t->priority }}', '{{ $t->status }}', '{{ $t->due_date }}', '{{ $t->start_time }}', '{{ $t->end_time }}')">
+                    
                     <form id="toggle-form-{{ $t->id }}" action="{{ route('tasks.toggle', $t->id) }}" method="POST" style="display:none;">
                       @csrf
                     </form>
-                    <span class="card-badge badge-{{ $t->priority ?? 'p3' }}">{{ strtoupper($t->priority ?? 'P3') }}</span>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                      <span class="card-badge badge-{{ $t->priority ?? 'p3' }}">{{ strtoupper($t->priority ?? 'P3') }}</span>
+                      <button type="button" 
+                              onclick="event.stopPropagation(); document.getElementById('toggle-form-{{ $t->id }}').submit();" 
+                              style="background:none; border:none; cursor:pointer; color: {{ $t->status === 'done' ? 'var(--accent-emerald)' : 'var(--text-muted)' }};">
+                        <i class="{{ $t->status === 'done' ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle' }}"></i>
+                      </button>
+                    </div>
+
                     <div class="card-title" style="{{ $t->status === 'done' ? 'text-decoration: line-through; color: var(--text-muted);' : '' }}">{{ $t->title }}</div>
                     @if($t->description)
                       <div class="card-desc">{{ $t->description }}</div>
@@ -130,11 +156,13 @@
       @else
         <div class="task-list">
           @foreach($tasks as $t)
-            <div class="list-item" onclick="document.getElementById('toggle-list-{{ $t->id }}').submit();">
+            <div class="list-item" onclick="openDetailModal('{{ $t->id }}', '{{ addslashes($t->title) }}', '{{ addslashes($t->description ?? '') }}', '{{ $t->priority }}', '{{ $t->status }}', '{{ $t->due_date }}', '{{ $t->start_time }}', '{{ $t->end_time }}')">
               <form id="toggle-list-{{ $t->id }}" action="{{ route('tasks.toggle', $t->id) }}" method="POST" style="display:none;">
                 @csrf
               </form>
-              <div class="checkbox {{ $t->status === 'done' ? 'checked' : '' }}"><i class="fa-solid fa-check" style="font-size: 10px;"></i></div>
+              <div class="checkbox {{ $t->status === 'done' ? 'checked' : '' }}" onclick="event.stopPropagation(); document.getElementById('toggle-list-{{ $t->id }}').submit();">
+                <i class="fa-solid fa-check" style="font-size: 10px;"></i>
+              </div>
               <div style="flex:1;">
                 <div style="font-weight: 600; {{ $t->status === 'done' ? 'text-decoration: line-through; color: var(--text-muted);' : '' }}">{{ $t->title }}</div>
                 <div style="font-size:11px; color:var(--text-muted);">{{ $t->due_date ? date('M d, Y', strtotime($t->due_date)) : 'No Date' }}</div>
@@ -202,4 +230,133 @@
     </form>
   </div>
 </div>
+
+<!-- Task Details Modal Dialog -->
+<div class="modal-backdrop" id="detailModal">
+  <div class="modal-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3 style="font-size:18px; font-weight:700;"><i class="fa-solid fa-file-lines" style="color:var(--primary);"></i> Task Details</h3>
+      <button class="btn btn-outline" onclick="closeDetailModal()" style="padding:4px 8px;"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <form id="detailForm" method="POST">
+      @csrf
+      <div class="form-group">
+        <label>Task Title</label>
+        <input type="text" id="detailTitle" name="title" class="form-control" readonly>
+      </div>
+      
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <div class="form-group" style="flex:1;">
+          <label>Status</label>
+          <select id="detailStatus" class="form-control" onchange="updateTaskStatusFromModal()">
+            <option value="backlog">Backlog</option>
+            <option value="todo">To Do</option>
+            <option value="inProgress">In Progress</option>
+            <option value="done">Done</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label>Priority</label>
+          <input type="text" id="detailPriority" class="form-control" readonly style="text-transform: uppercase;">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description / Notes</label>
+        <textarea id="detailDescription" class="form-control" rows="3" readonly></textarea>
+      </div>
+
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <div class="form-group" style="flex:1;">
+          <label>Due Date</label>
+          <input type="text" id="detailDueDate" class="form-control" readonly>
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label>Time Slot</label>
+          <input type="text" id="detailTimeSlot" class="form-control" readonly>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button type="button" class="btn btn-outline" onclick="closeDetailModal()">Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+@section('scripts')
+<script>
+  let activeDetailTaskId = null;
+  let draggedTaskId = null;
+
+  function openDetailModal(id, title, description, priority, status, dueDate, startTime, endTime) {
+    activeDetailTaskId = id;
+    document.getElementById('detailTitle').value = title;
+    document.getElementById('detailDescription').value = description || 'No description provided';
+    document.getElementById('detailPriority').value = priority;
+    document.getElementById('detailStatus').value = status;
+    document.getElementById('detailDueDate').value = dueDate || 'No due date';
+    document.getElementById('detailTimeSlot').value = (startTime || '') + (endTime ? ' - ' + endTime : '');
+    
+    document.getElementById('detailModal').classList.add('show');
+  }
+
+  function closeDetailModal() {
+    document.getElementById('detailModal').classList.remove('show');
+  }
+
+  function updateTaskStatusFromModal() {
+    if (!activeDetailTaskId) return;
+    const newStatus = document.getElementById('detailStatus').value;
+
+    fetch('/tasks/' + activeDetailTaskId + '/status', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ status: newStatus })
+    })
+    .then(res => res.json())
+    .then(data => {
+      window.location.reload();
+    })
+    .catch(err => console.error('Status update error:', err));
+  }
+
+  // HTML5 Drag & Drop Handlers for Kanban Board
+  function handleDragStart(e, taskId) {
+    draggedTaskId = taskId;
+    e.dataTransfer.setData('text/plain', taskId);
+    e.dataTransfer.effectAllowed = 'move';
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  }
+
+  function handleDrop(e, targetStatus) {
+    e.preventDefault();
+    if (!draggedTaskId) return;
+
+    fetch('/tasks/' + draggedTaskId + '/status', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ status: targetStatus })
+    })
+    .then(res => res.json())
+    .then(data => {
+      window.location.reload();
+    })
+    .catch(err => console.error('Drag drop status update error:', err));
+  }
+</script>
+@endsection
 @endsection

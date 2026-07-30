@@ -16,6 +16,7 @@ Route::get('/logout', [TaskWebController::class, 'logout'])->name('logout');
 
 Route::post('/tasks', [TaskWebController::class, 'store'])->name('tasks.store');
 Route::post('/tasks/{id}/toggle', [TaskWebController::class, 'toggleStatus'])->name('tasks.toggle');
+Route::post('/tasks/{id}/status', [TaskWebController::class, 'updateStatus'])->name('tasks.updateStatus');
 Route::delete('/tasks/{id}', [TaskWebController::class, 'destroy'])->name('tasks.destroy');
 
 Route::get('/api-status', function () {

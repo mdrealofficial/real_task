@@ -116,6 +116,28 @@ class TaskWebController extends Controller
     }
 
     /**
+     * Update task status from drag and drop or dropdown selection.
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $task = Task::findOrFail($id);
+        $status = $request->input('status', 'todo');
+        $task->status = $status;
+        if ($status === 'done') {
+            $task->completed_at = now();
+        } else {
+            $task->completed_at = null;
+        }
+        $task->save();
+
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'task' => $task]);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
      * Delete a task.
      */
     public function destroy($id)
