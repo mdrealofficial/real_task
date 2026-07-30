@@ -11,39 +11,39 @@
         <div class="brand-icon"><i class="fa-solid fa-square-check"></i></div>
         <span class="brand-title">Task Flow</span>
       </div>
-      <button class="btn btn-outline" onclick="toggleSidebar()" style="padding: 6px 10px;"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="btn btn-outline" onclick="toggleSidebar()" style="padding: 4px 8px; font-size: 11px;"><i class="fa-solid fa-chevron-left" id="sidebarToggleIcon"></i></button>
     </div>
 
     <div class="sidebar-menu">
       <a href="{{ route('dashboard', ['category' => 'today']) }}" class="nav-item {{ $category === 'today' ? 'active' : '' }}">
-        <i class="fa-regular fa-calendar-check"></i> Today <span class="nav-badge">{{ $totalCount }}</span>
+        <i class="fa-regular fa-calendar-check"></i> <span class="nav-text">Today</span> <span class="nav-badge">{{ $totalCount }}</span>
       </a>
       <a href="{{ route('dashboard', ['category' => 'upcoming']) }}" class="nav-item {{ $category === 'upcoming' ? 'active' : '' }}">
-        <i class="fa-regular fa-calendar"></i> Upcoming
+        <i class="fa-regular fa-calendar"></i> <span class="nav-text">Upcoming</span>
       </a>
       <a href="{{ route('dashboard', ['category' => 'inbox']) }}" class="nav-item {{ $category === 'inbox' ? 'active' : '' }}">
-        <i class="fa-solid fa-inbox"></i> Inbox & Backlog
+        <i class="fa-solid fa-inbox"></i> <span class="nav-text">Inbox & Backlog</span>
       </a>
       <a href="{{ route('dashboard', ['category' => 'recurring']) }}" class="nav-item {{ $category === 'recurring' ? 'active' : '' }}">
-        <i class="fa-solid fa-arrows-rotate"></i> Recurring Tasks
+        <i class="fa-solid fa-arrows-rotate"></i> <span class="nav-text">Recurring Tasks</span>
       </a>
 
-      <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin: 16px 8px 8px;">PROJECTS & TAGS</div>
-      <a href="{{ route('dashboard', ['category' => 'work']) }}" class="nav-item {{ $category === 'work' ? 'active' : '' }}"><i class="fa-solid fa-folder" style="color: var(--accent-amber);"></i> Work & Dev</a>
-      <a href="{{ route('dashboard', ['category' => 'personal']) }}" class="nav-item {{ $category === 'personal' ? 'active' : '' }}"><i class="fa-solid fa-user" style="color: var(--accent-cyan);"></i> Personal</a>
-      <a href="{{ route('dashboard', ['category' => 'health']) }}" class="nav-item {{ $category === 'health' ? 'active' : '' }}"><i class="fa-solid fa-heart" style="color: var(--accent-rose);"></i> Health & Wellness</a>
+      <div class="nav-section-title" style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin: 16px 8px 8px;">PROJECTS & TAGS</div>
+      <a href="{{ route('dashboard', ['category' => 'work']) }}" class="nav-item {{ $category === 'work' ? 'active' : '' }}"><i class="fa-solid fa-folder" style="color: var(--accent-amber);"></i> <span class="nav-text">Work & Dev</span></a>
+      <a href="{{ route('dashboard', ['category' => 'personal']) }}" class="nav-item {{ $category === 'personal' ? 'active' : '' }}"><i class="fa-solid fa-user" style="color: var(--accent-cyan);"></i> <span class="nav-text">Personal</span></a>
+      <a href="{{ route('dashboard', ['category' => 'health']) }}" class="nav-item {{ $category === 'health' ? 'active' : '' }}"><i class="fa-solid fa-heart" style="color: var(--accent-rose);"></i> <span class="nav-text">Health & Wellness</span></a>
     </div>
 
     <div class="sidebar-footer">
       <div class="user-info">
         <div class="avatar">{{ strtoupper(substr(session('user_email', 'admin'), 0, 1)) }}</div>
-        <div style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ session('user_email', 'mdreal.official@gmail.com') }}</div>
+        <div class="user-email-text" style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ session('user_email', 'mdreal.official@gmail.com') }}</div>
       </div>
       <div style="display:flex; justify-content:space-between; gap:6px;">
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.22</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.0</div>
     </div>
   </aside>
 
