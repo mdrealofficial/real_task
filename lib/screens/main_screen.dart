@@ -95,11 +95,21 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
 
-                    // Slide-over Right Task Detail Drawer (when active)
-                    if (navProvider.activeDrawerTaskId != null)
+                    // Desktop / Tablet Slide-over Right Task Detail Drawer
+                    if (!isMobile && navProvider.activeDrawerTaskId != null)
                       TaskDetailDrawer(taskId: navProvider.activeDrawerTaskId!),
                   ],
                 ),
+
+                // Mobile Slide-over Full-Screen Task Detail Overlay (Zero Row Overflow)
+                if (isMobile && navProvider.activeDrawerTaskId != null)
+                  Positioned.fill(
+                    child: Material(
+                      elevation: 16,
+                      color: isDark ? AppTheme.darkCard : Colors.white,
+                      child: TaskDetailDrawer(taskId: navProvider.activeDrawerTaskId!),
+                    ),
+                  ),
 
                 // Alarm Overlay Dialog when triggered
                 if (alarmService.activeAlarmTask != null)

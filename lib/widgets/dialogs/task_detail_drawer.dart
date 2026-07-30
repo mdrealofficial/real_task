@@ -42,6 +42,8 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
     final taskProvider = Provider.of<TaskProvider>(context);
     final navProvider = Provider.of<NavigationProvider>(context);
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 768;
 
     final taskIndex = taskProvider.tasks.indexWhere((t) => t.id == widget.taskId);
     if (taskIndex == -1) return const SizedBox.shrink();
@@ -53,7 +55,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
     }
 
     return Container(
-      width: 420,
+      width: isMobile ? double.infinity : 420,
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCard : Colors.white,
         border: Border(left: BorderSide(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder, width: 1)),
@@ -74,8 +76,13 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
               children: [
                 const Icon(Icons.edit_note, color: AppTheme.primaryIndigo),
                 const SizedBox(width: 8),
-                const Text('Task Details', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                const Spacer(),
+                const Expanded(
+                  child: Text(
+                    'Task Details',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 IconButton(
                   icon: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 20),
                   onPressed: () {
@@ -95,7 +102,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
           // Drawer Form Body
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               children: [
                 // Title Field
                 TextField(
@@ -118,11 +125,19 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                     Expanded(
                       child: DropdownButtonFormField<TaskPriority>(
                         initialValue: task.priority,
-                        decoration: const InputDecoration(labelText: 'Priority', border: OutlineInputBorder()),
+                        decoration: const InputDecoration(
+                          labelText: 'Priority',
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          border: OutlineInputBorder(),
+                        ),
                         items: TaskPriority.values.map((p) {
                           return DropdownMenuItem(
                             value: p,
-                            child: Text(AppTheme.getPriorityLabel(p), style: TextStyle(color: AppTheme.getPriorityColor(p), fontWeight: FontWeight.bold)),
+                            child: Text(
+                              AppTheme.getPriorityLabel(p),
+                              style: TextStyle(color: AppTheme.getPriorityColor(p), fontWeight: FontWeight.bold, fontSize: 12),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           );
                         }).toList(),
                         onChanged: (val) {
@@ -130,13 +145,24 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                         },
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 8),
                     Expanded(
                       child: DropdownButtonFormField<TaskStatus>(
                         initialValue: task.status,
-                        decoration: const InputDecoration(labelText: 'Status', border: OutlineInputBorder()),
+                        decoration: const InputDecoration(
+                          labelText: 'Status',
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          border: OutlineInputBorder(),
+                        ),
                         items: TaskStatus.values.map((s) {
-                          return DropdownMenuItem(value: s, child: Text(s.name.toUpperCase()));
+                          return DropdownMenuItem(
+                            value: s,
+                            child: Text(
+                              s.name.toUpperCase(),
+                              style: const TextStyle(fontSize: 12),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
                         }).toList(),
                         onChanged: (val) {
                           if (val != null) taskProvider.updateTaskStatus(task.id, val);
@@ -162,7 +188,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                           children: [
                             ElevatedButton.icon(
                               icon: const Icon(Icons.calendar_today, size: 14),
-                              label: Text(task.dueDate != null ? DateFormat('MMM d, yyyy').format(task.dueDate!) : 'Set Due Date'),
+                              label: Text(task.dueDate != null ? DateFormat('MMM d, yyyy').format(task.dueDate!) : 'Set Due Date', style: const TextStyle(fontSize: 12)),
                               onPressed: () async {
                                 final picked = await showDatePicker(
                                   context: context,
@@ -179,7 +205,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                             if (task.dueDate != null)
                               TextButton(
                                 onPressed: () => taskProvider.updateTask(task.copyWith(dueDate: null)),
-                                child: const Text('Clear', style: TextStyle(color: Colors.redAccent)),
+                                child: const Text('Clear', style: TextStyle(color: Colors.redAccent, fontSize: 12)),
                               ),
                           ],
                         ),
@@ -189,15 +215,17 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                             Expanded(
                               child: TextFormField(
                                 initialValue: task.startTime ?? '10:00',
-                                decoration: const InputDecoration(labelText: 'Start Time', hintText: '10:00'),
+                                decoration: const InputDecoration(labelText: 'Start Time', hintText: '10:00', contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8)),
+                                style: const TextStyle(fontSize: 13),
                                 onChanged: (val) => taskProvider.updateTask(task.copyWith(startTime: val)),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: TextFormField(
                                 initialValue: task.endTime ?? '11:30',
-                                decoration: const InputDecoration(labelText: 'End Time', hintText: '11:30'),
+                                decoration: const InputDecoration(labelText: 'End Time', hintText: '11:30', contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8)),
+                                style: const TextStyle(fontSize: 13),
                                 onChanged: (val) => taskProvider.updateTask(task.copyWith(endTime: val)),
                               ),
                             ),
@@ -222,8 +250,9 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                           children: [
                             const Icon(Icons.notifications_active_outlined, size: 16, color: Colors.purple),
                             const SizedBox(width: 6),
-                            const Text('Alarms & 15m Pre-Reminders', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                            const Spacer(),
+                            const Expanded(
+                              child: Text('Alarms & Reminders', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                            ),
                             IconButton(
                               icon: const Icon(Icons.add_alert, size: 18, color: AppTheme.primaryIndigo),
                               onPressed: () {
@@ -273,7 +302,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                     value: item.isCompleted,
-                    title: Text(item.title, style: TextStyle(decoration: item.isCompleted ? TextDecoration.lineThrough : null)),
+                    title: Text(item.title, style: TextStyle(fontSize: 13, decoration: item.isCompleted ? TextDecoration.lineThrough : null)),
                     onChanged: (_) => taskProvider.toggleChecklistItem(task.id, item.id),
                   ),
                 ),
@@ -283,6 +312,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                     Expanded(
                       child: TextField(
                         controller: _subtaskController,
+                        style: const TextStyle(fontSize: 13),
                         decoration: const InputDecoration(hintText: 'Add new subtask...', isDense: true),
                       ),
                     ),
@@ -306,6 +336,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                 TextField(
                   controller: _descController,
                   maxLines: 4,
+                  style: const TextStyle(fontSize: 13),
                   decoration: const InputDecoration(
                     hintText: 'Add extra details, code snippets, or notes...',
                     border: OutlineInputBorder(),
