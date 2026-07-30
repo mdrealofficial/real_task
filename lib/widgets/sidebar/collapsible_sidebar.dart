@@ -50,13 +50,9 @@ class CollapsibleSidebar extends StatelessWidget {
                   )
                 : Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryIndigo.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 20),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.asset('assets/icon/app_icon.png', width: 26, height: 26, fit: BoxFit.cover),
                       ),
                       const SizedBox(width: 8),
                       const Expanded(
@@ -289,7 +285,7 @@ class CollapsibleSidebar extends StatelessWidget {
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Task Flow App v1.0.28',
+                'Task Flow App v1.0.29',
                 style: TextStyle(fontSize: 10, color: isDark ? Colors.grey[500] : Colors.grey[400]),
               ),
             ),

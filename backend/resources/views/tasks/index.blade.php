@@ -8,7 +8,7 @@
   <aside class="sidebar" id="appSidebar">
     <div class="sidebar-header">
       <div class="brand">
-        <div class="brand-icon"><i class="fa-solid fa-square-check"></i></div>
+        <img src="{{ asset('favicon.png') }}" style="width: 28px; height: 28px; border-radius: 8px;" alt="Task Flow Logo">
         <span class="brand-title">Task Flow</span>
       </div>
       <button class="btn btn-outline" onclick="toggleSidebar()" style="padding: 4px 8px; font-size: 11px;"><i class="fa-solid fa-chevron-left" id="sidebarToggleIcon"></i></button>
@@ -43,7 +43,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.2</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.3</div>
     </div>
   </aside>
 

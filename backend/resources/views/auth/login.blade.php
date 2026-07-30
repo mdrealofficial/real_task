@@ -6,9 +6,7 @@
 <div style="position: fixed; inset: 0; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px;">
   <div style="background: #ffffff; width: 100%; max-width: 420px; padding: 36px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4); text-align: center; border: 1px solid rgba(255,255,255,0.2);">
     
-    <div style="width: 60px; height: 60px; background: rgba(79, 70, 229, 0.1); color: #4f46e5; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 20px;">
-      <i class="fa-solid fa-square-check"></i>
-    </div>
+    <img src="{{ asset('favicon.png') }}" style="width: 52px; height: 52px; border-radius: 14px; margin-bottom: 18px;" alt="Task Flow Logo">
     
     <h2 style="font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px; letter-spacing: -0.5px;">Sign In to Task Flow</h2>
     <p style="font-size: 13px; color: #64748b; margin-bottom: 28px; line-height: 1.4;">Enter your registered credentials to access your web dashboard</p>

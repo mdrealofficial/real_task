@@ -55,13 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo & Header
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryIndigo.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 28),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset('assets/icon/app_icon.png', width: 36, height: 36, fit: BoxFit.cover),
                       ),
                       const SizedBox(width: 14),
                       const Column(
