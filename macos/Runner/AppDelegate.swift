@@ -8,6 +8,12 @@ class AppDelegate: FlutterAppDelegate {
   override func applicationDidFinishLaunching(_ aNotification: Notification) {
     super.applicationDidFinishLaunching(aNotification)
 
+    // Set Dock Icon dynamically to Task Flow App Icon
+    if let iconPath = Bundle.main.path(forResource: "app_icon", ofType: "png", inDirectory: "flutter_assets/assets/icon"),
+       let image = NSImage(contentsOfFile: iconPath) {
+      NSApp.applicationIconImage = image
+    }
+
     // Create Apple Top Menu Bar Status Item
     statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     if let button = statusItem?.button {
@@ -22,7 +28,7 @@ class AppDelegate: FlutterAppDelegate {
 
     // Create Menu Bar Context Menu
     let menu = NSMenu()
-    let titleItem = NSMenuItem(title: "Task Flow v1.0.8", action: nil, keyEquivalent: "")
+    let titleItem = NSMenuItem(title: "Task Flow v1.0.30", action: nil, keyEquivalent: "")
     titleItem.isEnabled = false
     menu.addItem(titleItem)
     menu.addItem(NSMenuItem.separator())
