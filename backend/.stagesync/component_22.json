@@ -7064,7 +7064,7 @@
     "vendor/dragonmantank/cron-expression/LICENSE": "7cf1e89d160af24781c694391c38b570",
     "artisan": "5d69155283c9cb275b8b0b78ca76fefc",
     "database/migrations/2026_07_30_000001_create_users_and_tasks_tables.php": "06a8e1642dcf05e1c4957ae796463545",
-    "composer.json": "b1e81ffaa495da7a82be16b550471dc8",
+    "composer.json": "04e76bdc721cc4d93370f4790c079c96",
     ".env": "3f7be909cd66f3fe5f68c567f4f0ea43",
     "app/Models/Task.php": "61f64edb347a296749afb445959debfd",
     "app/Models/User.php": "9504a607b5a28f362dc63ef0845b6988",
@@ -7085,7 +7085,8 @@
     "config/cors.php": "ac0ba49f641a2ed1a4265bf71d88ea04",
     "config/app.php": "8f2c5a76d97220edc23d02e79ec41843",
     "config/database.php": "402d61592e82070d48c3faa0e561063c",
-    "resources/views/app.blade.php": "4c20547f470b9e92e5c7955fdc954105"
+    "resources/views/app.blade.php": "b48a8d782fffce3bff8b5a860ce30fde",
+    "resources/views/layouts/app.blade.php": "83a26a7e122567ff27e4fbeb9bb5cfa9"
   },
   "local_cache": {
     ".env.example": {
@@ -7140,8 +7141,8 @@
     },
     "composer.json": {
       "size": 1189,
-      "mtime": 1785375156071,
-      "md5": "b1e81ffaa495da7a82be16b550471dc8"
+      "mtime": 1785375256074,
+      "md5": "04e76bdc721cc4d93370f4790c079c96"
     },
     "composer.lock": {
       "size": 238473,
@@ -42470,8 +42471,13 @@
     },
     "resources/views/app.blade.php": {
       "size": 27685,
-      "mtime": 1785375142498,
-      "md5": "4c20547f470b9e92e5c7955fdc954105"
+      "mtime": 1785375266331,
+      "md5": "b48a8d782fffce3bff8b5a860ce30fde"
+    },
+    "resources/views/layouts/app.blade.php": {
+      "size": 10374,
+      "mtime": 1785375239987,
+      "md5": "83a26a7e122567ff27e4fbeb9bb5cfa9"
     }
   }
 }
