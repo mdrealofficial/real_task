@@ -63,7 +63,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.12</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.13</div>
     </div>
   </aside>
 
@@ -120,7 +120,7 @@
                   <div class="task-card" 
                        draggable="true" 
                        ondragstart="handleDragStart(event, '{{ $t->id }}')"
-                       onclick="openDetailModal('{{ $t->id }}', '{{ addslashes($t->title) }}', '{{ addslashes($t->description ?? '') }}', '{{ $t->priority }}', '{{ $t->status }}', '{{ $t->due_date }}', '{{ $t->start_time }}', '{{ $t->end_time }}')">
+                       onclick="openDetailModal('{{ $t->id }}', '{{ addslashes($t->title) }}', '{{ addslashes($t->description ?? '') }}', '{{ $t->priority }}', '{{ $t->status }}', '{{ $t->due_date }}', '{{ $t->start_time }}', '{{ $t->end_time }}', '{{ $t->created_at }}', '{{ $t->updated_at }}')">
                     
                     <form id="toggle-form-{{ $t->id }}" action="{{ route('tasks.toggle', $t->id) }}" method="POST" style="display:none;">
                       @csrf
@@ -156,7 +156,7 @@
       @else
         <div class="task-list">
           @foreach($tasks as $t)
-            <div class="list-item" onclick="openDetailModal('{{ $t->id }}', '{{ addslashes($t->title) }}', '{{ addslashes($t->description ?? '') }}', '{{ $t->priority }}', '{{ $t->status }}', '{{ $t->due_date }}', '{{ $t->start_time }}', '{{ $t->end_time }}')">
+            <div class="list-item" onclick="openDetailModal('{{ $t->id }}', '{{ addslashes($t->title) }}', '{{ addslashes($t->description ?? '') }}', '{{ $t->priority }}', '{{ $t->status }}', '{{ $t->due_date }}', '{{ $t->start_time }}', '{{ $t->end_time }}', '{{ $t->created_at }}', '{{ $t->updated_at }}')">
               <form id="toggle-list-{{ $t->id }}" action="{{ route('tasks.toggle', $t->id) }}" method="POST" style="display:none;">
                 @csrf
               </form>
@@ -254,7 +254,10 @@
       </div>
 
       <div style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Description / Notes</div>
-      <div id="viewDescriptionBox" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:10px; padding:12px; font-size:13px; line-height:1.5; color:var(--text-main); min-height:70px; margin-bottom:20px; white-space:pre-wrap;"></div>
+      <div id="viewDescriptionBox" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:10px; padding:12px; font-size:13px; line-height:1.5; color:var(--text-main); min-height:60px; margin-bottom:16px; white-space:pre-wrap;"></div>
+
+      <div style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--accent-cyan);"></i> Activity & Status Change Log</div>
+      <div id="viewActivityLogBox" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:10px; padding:12px; font-size:12px; margin-bottom:16px;"></div>
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button type="button" class="btn btn-outline" onclick="closeDetailModal()">Close</button>
@@ -326,7 +329,7 @@
   let activeDetailTaskId = null;
   let draggedTaskId = null;
 
-  function openDetailModal(id, title, description, priority, status, dueDate, startTime, endTime) {
+  function openDetailModal(id, title, description, priority, status, dueDate, startTime, endTime, createdAt, updatedAt) {
     activeDetailTaskId = id;
 
     // Populate Read-Only View Elements (No input boxes)
@@ -344,12 +347,37 @@
       prioBadge.style.background = 'rgba(79, 70, 229, 0.15)'; prioBadge.style.color = '#4f46e5';
     }
 
-    let schedText = dueDate ? ('Due Date: ' + dueDate) : 'No due date set';
-    if (startTime || endTime) {
-      schedText += ' (' + (startTime || '') + (endTime ? ' - ' + endTime : '') + ')';
+    // Clean Date Formatting
+    let cleanDueDate = 'No due date set';
+    if (dueDate && dueDate !== 'null' && dueDate.trim() !== '') {
+      const datePart = dueDate.split('T')[0];
+      cleanDueDate = 'Due Date: ' + datePart;
     }
-    document.getElementById('viewScheduleText').innerText = schedText;
+    if (startTime || endTime) {
+      cleanDueDate += ' (' + (startTime || '') + (endTime ? ' - ' + endTime : '') + ')';
+    }
+    document.getElementById('viewScheduleText').innerText = cleanDueDate;
     document.getElementById('viewDescriptionBox').innerText = description || 'No description or notes provided for this task.';
+
+    // Populate Status Change & Activity Log Timeline
+    let cleanUpdated = updatedAt ? updatedAt.replace('T', ' ').split('.')[0] : 'Just now';
+    let cleanCreated = createdAt ? createdAt.replace('T', ' ').split('.')[0] : 'Earlier';
+    
+    let activityHtml = `
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+        <i class="fa-solid fa-circle-dot" style="color:var(--accent-emerald); font-size:10px;"></i>
+        <span>Current Status: <strong>${status.toUpperCase()}</strong></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; color:var(--text-muted); font-size:11px; margin-bottom:4px;">
+        <i class="fa-regular fa-clock" style="font-size:10px;"></i>
+        <span>Last Status Change: ${cleanUpdated}</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; color:var(--text-muted); font-size:11px;">
+        <i class="fa-regular fa-calendar-plus" style="font-size:10px;"></i>
+        <span>Task Created: ${cleanCreated}</span>
+      </div>
+    `;
+    document.getElementById('viewActivityLogBox').innerHTML = activityHtml;
 
     // Populate Edit Form Input Fields
     document.getElementById('detailForm').action = '/tasks/' + id + '/update';
@@ -357,7 +385,7 @@
     document.getElementById('detailDescription').value = description || '';
     document.getElementById('detailPriority').value = priority;
     document.getElementById('detailStatus').value = status;
-    document.getElementById('detailDueDate').value = dueDate || '';
+    document.getElementById('detailDueDate').value = dueDate ? dueDate.split('T')[0] : '';
     document.getElementById('detailStartTime').value = startTime || '';
     document.getElementById('detailEndTime').value = endTime || '';
     

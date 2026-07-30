@@ -162,7 +162,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
 
                   const SizedBox(height: 16),
 
-                  // Schedule Info Card
+                  // Schedule Info Card (Clean Format)
                   Card(
                     margin: EdgeInsets.zero,
                     child: Padding(
@@ -179,7 +179,7 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            task.dueDate != null ? DateFormat('EEEE, MMM d, yyyy').format(task.dueDate!) : 'No Due Date',
+                            task.dueDate != null ? DateFormat('MMM d, yyyy').format(task.dueDate!) : 'No Due Date',
                             style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                           ),
                           if (task.startTime != null || task.endTime != null) ...[
@@ -217,16 +217,56 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                   ],
 
                   // Checklist Subtasks Section
-                  const Text('Subtasks Checklist', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.grey)),
-                  const SizedBox(height: 6),
+                  if (task.checklist.isNotEmpty) ...[
+                    const Text('Subtasks Checklist', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.grey)),
+                    const SizedBox(height: 6),
+                    ...task.checklist.map(
+                      (item) => CheckboxListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        value: item.isCompleted,
+                        title: Text(item.title, style: TextStyle(fontSize: 13, decoration: item.isCompleted ? TextDecoration.lineThrough : null)),
+                        onChanged: (_) => taskProvider.toggleChecklistItem(task.id, item.id),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
-                  ...task.checklist.map(
-                    (item) => CheckboxListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      value: item.isCompleted,
-                      title: Text(item.title, style: TextStyle(fontSize: 13, decoration: item.isCompleted ? TextDecoration.lineThrough : null)),
-                      onChanged: (_) => taskProvider.toggleChecklistItem(task.id, item.id),
+                  // Status Change & Activity Log Card
+                  Card(
+                    margin: EdgeInsets.zero,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.history, size: 16, color: AppTheme.accentCyan),
+                              SizedBox(width: 6),
+                              Text('Status Change & Activity Log', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey)),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              const Icon(Icons.circle, size: 8, color: AppTheme.accentEmerald),
+                              const SizedBox(width: 6),
+                              Text('Status: ${task.status.name.toUpperCase()}', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Last Status Update: ${DateFormat('MMM d, yyyy h:mm a').format(task.updatedAt)}',
+                            style: const TextStyle(fontSize: 11, color: Colors.grey),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            'Task Created: ${DateFormat('MMM d, yyyy h:mm a').format(task.createdAt)}',
+                            style: const TextStyle(fontSize: 11, color: Colors.grey),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
