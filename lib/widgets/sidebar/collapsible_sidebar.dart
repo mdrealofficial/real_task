@@ -36,45 +36,47 @@ class CollapsibleSidebar extends StatelessWidget {
           // Header Logo & Toggle
           Container(
             height: 64,
-            padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 8 : 12),
-            alignment: Alignment.centerLeft,
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                    color: AppTheme.primaryIndigo.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 20),
-                ),
-                if (!isCollapsed) ...[
-                  const SizedBox(width: 8),
-                  const Expanded(
-                    child: Text(
-                      'TaskFlow',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: -0.5,
+            padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 4 : 12),
+            alignment: Alignment.center,
+            child: isCollapsed
+                ? IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: const Icon(Icons.chevron_right, size: 20),
+                    onPressed: () => navProvider.toggleSidebar(),
+                    tooltip: 'Expand Sidebar (Cmd+[)',
+                  )
+                : Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryIndigo.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 20),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      const Expanded(
+                        child: Text(
+                          'Task Flow',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        icon: const Icon(Icons.chevron_left, size: 20),
+                        onPressed: () => navProvider.toggleSidebar(),
+                        tooltip: 'Collapse Sidebar (Cmd+[)',
+                      ),
+                    ],
                   ),
-                ] else
-                  const Spacer(),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  icon: Icon(
-                    isCollapsed ? Icons.chevron_right : Icons.chevron_left,
-                    size: 20,
-                  ),
-                  onPressed: () => navProvider.toggleSidebar(),
-                  tooltip: isCollapsed ? 'Expand Sidebar (Cmd+[)' : 'Collapse Sidebar (Cmd+[)',
-                ),
-              ],
-            ),
           ),
           const Divider(height: 1),
 
@@ -251,7 +253,7 @@ class CollapsibleSidebar extends StatelessWidget {
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Task Flow v1.0.3',
+                'Task Flow v1.0.4',
                 style: TextStyle(fontSize: 10, color: isDark ? Colors.grey[500] : Colors.grey[400]),
               ),
             ),
