@@ -225,25 +225,28 @@ class CollapsibleSidebar extends StatelessWidget {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.lock_reset, size: 18),
-                  onPressed: () => showDialog(context: context, builder: (_) => const ChangePasswordDialog()),
-                  tooltip: 'Change Password',
-                ),
-                IconButton(
-                  icon: Icon(isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined, size: 18),
-                  onPressed: () => navProvider.toggleTheme(),
-                  tooltip: 'Toggle Theme',
-                ),
-                IconButton(
-                  icon: const Icon(Icons.logout, size: 18, color: Colors.redAccent),
-                  onPressed: () => authService.logout(),
-                  tooltip: 'Sign Out',
-                ),
-              ],
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.lock_reset, size: 18),
+                    onPressed: () => showDialog(context: context, builder: (_) => const ChangePasswordDialog()),
+                    tooltip: 'Change Password',
+                  ),
+                  IconButton(
+                    icon: Icon(isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined, size: 18),
+                    onPressed: () => navProvider.toggleTheme(),
+                    tooltip: 'Toggle Theme',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.logout, size: 18, color: Colors.redAccent),
+                    onPressed: () => authService.logout(),
+                    tooltip: 'Sign Out',
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 4),
             Center(
