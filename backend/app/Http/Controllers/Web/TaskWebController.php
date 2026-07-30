@@ -28,7 +28,7 @@ class TaskWebController extends Controller
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        $tasks = $query->orderBy('created_at', 'desc')->get();
+        $tasks = $query->orderBy('updated_at', 'desc')->get();
         $totalCount = $tasks->count();
         $completedCount = $tasks->where('status', 'done')->count();
         $percentage = $totalCount > 0 ? round(($completedCount / $totalCount) * 100) : 0;

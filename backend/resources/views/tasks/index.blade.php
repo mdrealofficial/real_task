@@ -43,7 +43,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.19</div>
+      <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.20</div>
     </div>
   </aside>
 
