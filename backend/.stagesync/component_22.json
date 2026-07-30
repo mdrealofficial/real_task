@@ -2330,7 +2330,7 @@
     "vendor/vlucas/phpdotenv/LICENSE": "53b0afca39ccf099da1c1bd1032ec04a",
     "vendor/composer/autoload_static.php": "89791a3ae4410fdbb97442c2ad830d8d",
     "vendor/composer/InstalledVersions.php": "7baf73014351c49ea0fef617dae7019b",
-    "vendor/composer/installed.php": "182b4aabe523614be49e27182255c118",
+    "vendor/composer/installed.php": "06a5b6cdec0e89c9d93e0a33cde5081b",
     "vendor/composer/ClassLoader.php": "c02be6d96671f88d28aad3ffa134c8ae",
     "vendor/composer/platform_check.php": "30372ea85233ff622b19552c14864e16",
     "vendor/composer/LICENSE": "955d5fe58c231244f6b49000f383b5e2",
@@ -7064,7 +7064,7 @@
     "vendor/dragonmantank/cron-expression/LICENSE": "7cf1e89d160af24781c694391c38b570",
     "artisan": "5d69155283c9cb275b8b0b78ca76fefc",
     "database/migrations/2026_07_30_000001_create_users_and_tasks_tables.php": "06a8e1642dcf05e1c4957ae796463545",
-    "composer.json": "04e76bdc721cc4d93370f4790c079c96",
+    "composer.json": "532b434835812059c4b8a4deed480572",
     ".env": "3f7be909cd66f3fe5f68c567f4f0ea43",
     "app/Models/Task.php": "61f64edb347a296749afb445959debfd",
     "app/Models/User.php": "9504a607b5a28f362dc63ef0845b6988",
@@ -7075,8 +7075,6 @@
     "routes/api.php": "c3a399ffe54c4021b1b6fe80ec11d480",
     "routes/console.php": "3c6ce2e6d16444282b24a9aa63885563",
     "storage/logs/laravel.log": "e7051c048a742606d27f81aa105812fb",
-    "bootstrap/cache/packages.php": "e6ddc7ecb44dcbd7562a0af35c92125a",
-    "bootstrap/cache/services.php": "eb7a01cfcf8b6b25b8086168c511b13b",
     "bootstrap/app.php": "679f1edf798d9765788ebab3dff42180",
     ".env.example": "4c3132d19ef250d1058306642be93e59",
     "public/index.php": "db977d885594b5f6f5991557e18e804a",
@@ -7085,7 +7083,7 @@
     "config/cors.php": "ac0ba49f641a2ed1a4265bf71d88ea04",
     "config/app.php": "8f2c5a76d97220edc23d02e79ec41843",
     "config/database.php": "402d61592e82070d48c3faa0e561063c",
-    "resources/views/app.blade.php": "b48a8d782fffce3bff8b5a860ce30fde",
+    "resources/views/app.blade.php": "6287a09f97f7d72aca45191ad75c9701",
     "resources/views/layouts/app.blade.php": "83a26a7e122567ff27e4fbeb9bb5cfa9"
   },
   "local_cache": {
@@ -7129,20 +7127,10 @@
       "mtime": 1785369753522,
       "md5": "679f1edf798d9765788ebab3dff42180"
     },
-    "bootstrap/cache/packages.php": {
-      "size": 712,
-      "mtime": 1785369889671,
-      "md5": "e6ddc7ecb44dcbd7562a0af35c92125a"
-    },
-    "bootstrap/cache/services.php": {
-      "size": 21525,
-      "mtime": 1785369889676,
-      "md5": "eb7a01cfcf8b6b25b8086168c511b13b"
-    },
     "composer.json": {
       "size": 1189,
-      "mtime": 1785375256074,
-      "md5": "04e76bdc721cc4d93370f4790c079c96"
+      "mtime": 1785375340807,
+      "md5": "532b434835812059c4b8a4deed480572"
     },
     "composer.lock": {
       "size": 238473,
@@ -7425,9 +7413,9 @@
       "md5": "fd546b794452a1a682a9e8939fc6b5cf"
     },
     "vendor/composer/installed.php": {
-      "size": 40384,
-      "mtime": 1785369875069,
-      "md5": "182b4aabe523614be49e27182255c118"
+      "size": 40358,
+      "mtime": 1785375433503,
+      "md5": "06a5b6cdec0e89c9d93e0a33cde5081b"
     },
     "vendor/composer/platform_check.php": {
       "size": 917,
@@ -42471,8 +42459,8 @@
     },
     "resources/views/app.blade.php": {
       "size": 27685,
-      "mtime": 1785375266331,
-      "md5": "b48a8d782fffce3bff8b5a860ce30fde"
+      "mtime": 1785375350794,
+      "md5": "6287a09f97f7d72aca45191ad75c9701"
     },
     "resources/views/layouts/app.blade.php": {
       "size": 10374,
