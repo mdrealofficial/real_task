@@ -44,58 +44,62 @@ class _MainScreenState extends State<MainScreen> {
         final isMobile = constraints.maxWidth < 768;
 
         return Scaffold(
-          // Mobile Navigation Drawer (slides over content smoothly without squeezing main screen)
+          // Mobile Navigation Drawer (slides over content safely below system status bar)
           drawer: isMobile
               ? const Drawer(
                   width: 280,
-                  child: CollapsibleSidebar(isMobileDrawer: true),
+                  child: SafeArea(
+                    child: CollapsibleSidebar(isMobileDrawer: true),
+                  ),
                 )
               : null,
-          body: Stack(
-            children: [
-              Row(
-                children: [
-                  // Desktop / Tablet Collapsible Sidebar Navigation
-                  if (!isMobile) const CollapsibleSidebar(isMobileDrawer: false),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    // Desktop / Tablet Collapsible Sidebar Navigation
+                    if (!isMobile) const CollapsibleSidebar(isMobileDrawer: false),
 
-                  // Main Canvas Workspace
-                  Expanded(
-                    child: Column(
-                      children: [
-                        // Top Navigation Header
-                        TopHeader(
-                          onQuickAdd: () => _showQuickCreateTaskDialog(context),
-                          isMobile: isMobile,
-                        ),
+                    // Main Canvas Workspace
+                    Expanded(
+                      child: Column(
+                        children: [
+                          // Top Navigation Header (safely below status bar)
+                          TopHeader(
+                            onQuickAdd: () => _showQuickCreateTaskDialog(context),
+                            isMobile: isMobile,
+                          ),
 
-                        // Top Horizontal Progress Bar Line
-                        const TopProgressBar(),
+                          // Top Horizontal Progress Bar Line
+                          const TopProgressBar(),
 
-                        // Main View Content (List Mode vs Kanban Board Mode)
-                        Expanded(
-                          child: navProvider.viewMode == ViewMode.list
-                              ? const TaskListView()
-                              : const KanbanBoardView(),
-                        ),
-                      ],
+                          // Main View Content (List Mode vs Kanban Board Mode)
+                          Expanded(
+                            child: navProvider.viewMode == ViewMode.list
+                                ? const TaskListView()
+                                : const KanbanBoardView(),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // Slide-over Right Task Detail Drawer (when active)
+                    if (navProvider.activeDrawerTaskId != null)
+                      TaskDetailDrawer(taskId: navProvider.activeDrawerTaskId!),
+                  ],
+                ),
+
+                // Alarm Overlay Dialog when triggered
+                if (alarmService.activeAlarmTask != null)
+                  Positioned.fill(
+                    child: Container(
+                      color: Colors.black45,
+                      child: const Center(child: AlarmOverlayDialog()),
                     ),
                   ),
-
-                  // Slide-over Right Task Detail Drawer (when active)
-                  if (navProvider.activeDrawerTaskId != null)
-                    TaskDetailDrawer(taskId: navProvider.activeDrawerTaskId!),
-                ],
-              ),
-
-              // Alarm Overlay Dialog when triggered
-              if (alarmService.activeAlarmTask != null)
-                Positioned.fill(
-                  child: Container(
-                    color: Colors.black45,
-                    child: const Center(child: AlarmOverlayDialog()),
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
 
           // Mobile Bottom Dock (on small screens)
