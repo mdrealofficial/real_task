@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 import '../models/task_model.dart';
 import '../models/checklist_model.dart';
@@ -40,14 +40,17 @@ class TaskProvider extends ChangeNotifier {
 
   Future<void> syncWithServer() async {
     if (_authService != null && _authService!.isLoggedIn) {
-      final userId = _authService!.currentUserId!;
+      final userId = _authService!.currentUserId;
+      if (userId == null || userId.isEmpty) return;
       final token = _authService!.authToken ?? '';
       try {
         final syncedTasks = await ApiService.syncTasks(userId, token, _tasks);
         if (syncedTasks != null) {
           _tasks = syncedTasks;
           await StorageService.saveTasks(_tasks);
-          notifyListeners();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            notifyListeners();
+          });
         }
       } catch (e) {
         debugPrint('Task Sync Error: $e');

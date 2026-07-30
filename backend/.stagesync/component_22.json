@@ -7064,13 +7064,13 @@
     "vendor/dragonmantank/cron-expression/LICENSE": "7cf1e89d160af24781c694391c38b570",
     "artisan": "5d69155283c9cb275b8b0b78ca76fefc",
     "database/migrations/2026_07_30_000001_create_users_and_tasks_tables.php": "06a8e1642dcf05e1c4957ae796463545",
-    "composer.json": "b7ece9a19a2db315b6514466105133f1",
+    "composer.json": "07ae55c15831e22f60514d036ec190d3",
     ".env": "3f7be909cd66f3fe5f68c567f4f0ea43",
     "app/Models/Task.php": "61f64edb347a296749afb445959debfd",
     "app/Models/User.php": "9504a607b5a28f362dc63ef0845b6988",
     "app/Http/Controllers/Controller.php": "25a307335c0719bc9a91b3f7babd186d",
     "app/Http/Controllers/Api/AuthApiController.php": "2e5e0abce4414641f11b2fb1ab25ea6d",
-    "app/Http/Controllers/Api/TaskApiController.php": "89a47f6b7eb9138f6a716b99e52c051d",
+    "app/Http/Controllers/Api/TaskApiController.php": "bd8dee58da4b157177cf38c4208bd5ce",
     "routes/web.php": "26614b9c5e0fbb833148ae128d7cf8fe",
     "routes/api.php": "c3a399ffe54c4021b1b6fe80ec11d480",
     "routes/console.php": "3c6ce2e6d16444282b24a9aa63885563",
@@ -7098,9 +7098,9 @@
       "md5": "2e5e0abce4414641f11b2fb1ab25ea6d"
     },
     "app/Http/Controllers/Api/TaskApiController.php": {
-      "size": 2448,
-      "mtime": 1785369424180,
-      "md5": "89a47f6b7eb9138f6a716b99e52c051d"
+      "size": 3119,
+      "mtime": 1785373295647,
+      "md5": "bd8dee58da4b157177cf38c4208bd5ce"
     },
     "app/Http/Controllers/Controller.php": {
       "size": 77,
@@ -7139,8 +7139,8 @@
     },
     "composer.json": {
       "size": 1188,
-      "mtime": 1785373128482,
-      "md5": "b7ece9a19a2db315b6514466105133f1"
+      "mtime": 1785373321348,
+      "md5": "07ae55c15831e22f60514d036ec190d3"
     },
     "composer.lock": {
       "size": 238473,
