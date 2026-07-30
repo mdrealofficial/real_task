@@ -4,6 +4,7 @@ import '../providers/navigation_provider.dart';
 import '../providers/task_provider.dart';
 import '../services/alarm_service.dart';
 import '../services/network_sync_service.dart';
+import '../theme/app_theme.dart';
 import '../widgets/sidebar/collapsible_sidebar.dart';
 import '../widgets/header/top_header.dart';
 import '../widgets/header/top_progress_bar.dart';
@@ -38,22 +39,32 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final navProvider = Provider.of<NavigationProvider>(context);
     final alarmService = Provider.of<AlarmService>(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final bg = isDark ? AppTheme.darkCard : Colors.white;
+    final sidebarBg = isDark ? AppTheme.darkSidebar : AppTheme.lightSidebar;
 
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 768;
 
         return Scaffold(
-          // Mobile Navigation Drawer (slides over content safely below system status bar)
+          backgroundColor: bg,
+          // Mobile Navigation Drawer (blends status bar background seamlessly)
           drawer: isMobile
-              ? const Drawer(
+              ? Drawer(
+                  backgroundColor: sidebarBg,
                   width: 280,
-                  child: SafeArea(
+                  child: const SafeArea(
+                    top: true,
+                    bottom: true,
                     child: CollapsibleSidebar(isMobileDrawer: true),
                   ),
                 )
               : null,
           body: SafeArea(
+            top: true,
+            bottom: true,
             child: Stack(
               children: [
                 Row(
@@ -65,7 +76,7 @@ class _MainScreenState extends State<MainScreen> {
                     Expanded(
                       child: Column(
                         children: [
-                          // Top Navigation Header (safely below status bar)
+                          // Top Navigation Header
                           TopHeader(
                             onQuickAdd: () => _showQuickCreateTaskDialog(context),
                             isMobile: isMobile,
