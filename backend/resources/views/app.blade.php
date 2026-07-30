@@ -257,7 +257,7 @@
           <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
           <button class="btn btn-outline" onclick="handleLogout()" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
-        <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.15</div>
+        <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.16</div>
       </div>
     </aside>
 
