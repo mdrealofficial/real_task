@@ -41,7 +41,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
 
-    .app-wrapper { display: flex; flex: 1; overflow: hidden; position: relative; }
+    .app-wrapper, .app-layout { display: flex; flex: 1; width: 100%; height: 100vh; overflow: hidden; position: relative; }
 
     /* Sidebar Navigation */
     .sidebar {
