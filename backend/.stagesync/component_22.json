@@ -7064,14 +7064,14 @@
     "vendor/dragonmantank/cron-expression/LICENSE": "7cf1e89d160af24781c694391c38b570",
     "artisan": "5d69155283c9cb275b8b0b78ca76fefc",
     "database/migrations/2026_07_30_000001_create_users_and_tasks_tables.php": "06a8e1642dcf05e1c4957ae796463545",
-    "composer.json": "6b751715648bd7a5d3522c7734fad20b",
+    "composer.json": "1eb04efe90f36f8c7f725e4bb02f3619",
     ".env": "3f7be909cd66f3fe5f68c567f4f0ea43",
     "app/Models/Task.php": "61f64edb347a296749afb445959debfd",
     "app/Models/User.php": "9504a607b5a28f362dc63ef0845b6988",
     "app/Http/Controllers/Controller.php": "25a307335c0719bc9a91b3f7babd186d",
     "app/Http/Controllers/Api/AuthApiController.php": "2e5e0abce4414641f11b2fb1ab25ea6d",
     "app/Http/Controllers/Api/TaskApiController.php": "bd8dee58da4b157177cf38c4208bd5ce",
-    "routes/web.php": "26614b9c5e0fbb833148ae128d7cf8fe",
+    "routes/web.php": "71f4d08e67b7be9e5105f400a1acfe43",
     "routes/api.php": "c3a399ffe54c4021b1b6fe80ec11d480",
     "routes/console.php": "3c6ce2e6d16444282b24a9aa63885563",
     "storage/logs/laravel.log": "e7051c048a742606d27f81aa105812fb",
@@ -7084,7 +7084,8 @@
     "composer.lock": "83da1a9a8bb9a007ef6dbcbe46726ce1",
     "config/cors.php": "ac0ba49f641a2ed1a4265bf71d88ea04",
     "config/app.php": "8f2c5a76d97220edc23d02e79ec41843",
-    "config/database.php": "402d61592e82070d48c3faa0e561063c"
+    "config/database.php": "402d61592e82070d48c3faa0e561063c",
+    "resources/views/app.blade.php": "35cde3c3e8ebafd2491b3cd1d7bca473"
   },
   "local_cache": {
     ".env.example": {
@@ -7139,8 +7140,8 @@
     },
     "composer.json": {
       "size": 1189,
-      "mtime": 1785374372846,
-      "md5": "6b751715648bd7a5d3522c7734fad20b"
+      "mtime": 1785374903128,
+      "md5": "1eb04efe90f36f8c7f725e4bb02f3619"
     },
     "composer.lock": {
       "size": 238473,
@@ -7188,9 +7189,9 @@
       "md5": "3c6ce2e6d16444282b24a9aa63885563"
     },
     "routes/web.php": {
-      "size": 279,
-      "mtime": 1785369759393,
-      "md5": "26614b9c5e0fbb833148ae128d7cf8fe"
+      "size": 568,
+      "mtime": 1785374851881,
+      "md5": "71f4d08e67b7be9e5105f400a1acfe43"
     },
     "storage/logs/laravel.log": {
       "size": 2411,
@@ -42466,6 +42467,11 @@
       "size": 845,
       "mtime": 1777181634000,
       "md5": "1d1fd45ef831387e859b8a4c6156ac64"
+    },
+    "resources/views/app.blade.php": {
+      "size": 27650,
+      "mtime": 1785374844590,
+      "md5": "35cde3c3e8ebafd2491b3cd1d7bca473"
     }
   }
 }

@@ -204,11 +204,11 @@
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" required>
+          <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" value="mdreal.official@gmail.com" required>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" value="Staritlab77" required>
         </div>
         <div id="loginError" style="color: var(--accent-rose); font-size: 12px; margin-bottom: 14px; display: none;"></div>
         <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>
@@ -257,7 +257,7 @@
           <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
           <button class="btn btn-outline" onclick="handleLogout()" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></button>
         </div>
-        <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.14</div>
+        <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.15</div>
       </div>
     </aside>
 
@@ -348,6 +348,7 @@
     </div>
   </div>
 
+@verbatim
   <script>
     let state = {
       user: null,
@@ -358,7 +359,6 @@
       searchQuery: ''
     };
 
-    // Initialize State from LocalStorage
     document.addEventListener('DOMContentLoaded', () => {
       const savedUser = localStorage.getItem('taskflow_user');
       const savedToken = localStorage.getItem('taskflow_token');
@@ -602,5 +602,6 @@
       location.reload();
     }
   </script>
+@endverbatim
 </body>
 </html>
