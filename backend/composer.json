@@ -1,6 +1,6 @@
 {
     "name": "taskflow/backend-api",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "type": "project",
     "description": "TaskFlow REST API Backend",
     "keywords": ["laravel", "framework", "taskflow", "api"],
