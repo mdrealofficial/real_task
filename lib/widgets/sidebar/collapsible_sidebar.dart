@@ -253,7 +253,7 @@ class CollapsibleSidebar extends StatelessWidget {
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Task Flow v1.0.4',
+                'Task Flow v1.0.5',
                 style: TextStyle(fontSize: 10, color: isDark ? Colors.grey[500] : Colors.grey[400]),
               ),
             ),

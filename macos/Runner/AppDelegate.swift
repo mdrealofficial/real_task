@@ -3,8 +3,54 @@ import FlutterMacOS
 
 @main
 class AppDelegate: FlutterAppDelegate {
+  var statusItem: NSStatusItem?
+
+  override func applicationDidFinishLaunching(_ aNotification: Notification) {
+    super.applicationDidFinishLaunching(aNotification)
+
+    // Create Apple Top Menu Bar Status Item
+    statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    if let button = statusItem?.button {
+      button.image = NSImage(systemSymbolName: "checkmark.square.fill", accessibilityDescription: "Task Flow")
+      button.action = #selector(showWindow)
+      button.target = self
+    }
+
+    // Create Menu Bar Context Menu
+    let menu = NSMenu()
+    let titleItem = NSMenuItem(title: "Task Flow v1.0.5", action: nil, keyEquivalent: "")
+    titleItem.isEnabled = false
+    menu.addItem(titleItem)
+    menu.addItem(NSMenuItem.separator())
+
+    menu.addItem(NSMenuItem(title: "Open Task Flow", action: #selector(showWindow), keyEquivalent: "o"))
+    menu.addItem(NSMenuItem(title: "Hide to Background", action: #selector(hideWindow), keyEquivalent: "h"))
+    menu.addItem(NSMenuItem.separator())
+    menu.addItem(NSMenuItem(title: "Quit Task Flow", action: #selector(quitApp), keyEquivalent: "q"))
+
+    statusItem?.menu = menu
+  }
+
+  @objc func showWindow() {
+    if let window = mainFlutterWindow {
+      window.makeKeyAndOrderFront(nil)
+      NSApp.activate(ignoringOtherApps: true)
+    }
+  }
+
+  @objc func hideWindow() {
+    if let window = mainFlutterWindow {
+      window.orderOut(nil)
+    }
+  }
+
+  @objc func quitApp() {
+    NSApp.terminate(nil)
+  }
+
+  // Keep app running in the background when the main window is closed
   override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-    return true
+    return false
   }
 
   override func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
