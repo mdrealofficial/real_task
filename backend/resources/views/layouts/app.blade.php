@@ -128,26 +128,28 @@
     .progress-line-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent-emerald)); width: 0%; transition: width 0.4s ease; }
 
     /* Content Area: Kanban vs List */
-    .content-viewport { flex: 1; padding: 20px; overflow-x: auto; overflow-y: auto; }
+    .content-viewport { flex: 1; padding: 20px; overflow-x: auto; overflow-y: hidden; display: flex; flex-direction: column; height: calc(100vh - 64px); }
 
-    /* Kanban Board (Side-by-Side Columns) */
+    /* Kanban Board (Full Viewport Height & Independent Column Scrolling) */
     .kanban-grid, .kanban-board {
       display: flex !important;
       flex-direction: row !important;
       gap: 16px;
-      align-items: flex-start;
+      align-items: stretch;
       width: 100%;
       min-width: 960px;
+      flex: 1;
+      height: calc(100vh - 104px);
     }
     .kanban-col {
-      flex: 1; min-width: 230px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);
-      display: flex; flex-direction: column; max-height: 100%;
+      flex: 1; min-width: 240px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color);
+      display: flex; flex-direction: column; height: 100%; max-height: 100%; overflow: hidden;
     }
     .kanban-header {
-      padding: 14px 16px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700;
+      padding: 14px 16px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 700; flex-shrink: 0;
     }
     .kanban-count { background: var(--bg-color); padding: 2px 8px; border-radius: 10px; font-size: 11px; color: var(--text-muted); }
-    .kanban-cards { padding: 12px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .kanban-cards { padding: 12px; flex: 1; min-height: 150px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
 
     /* Task Card */
     .task-card {

@@ -63,7 +63,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.8</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.9</div>
     </div>
   </aside>
 
@@ -94,7 +94,7 @@
     </header>
 
     <!-- Content Workspace (Kanban vs List) -->
-    <div style="flex:1; overflow:auto; padding:20px;">
+    <div class="content-viewport">
       @if(($viewMode ?? 'kanban') === 'kanban')
         <div class="kanban-grid">
           @php
