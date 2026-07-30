@@ -47,11 +47,14 @@ class TopProgressBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
-              Text(
-                '($completed of $total tasks done)',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDark ? Colors.grey[400] : Colors.grey[600],
+              Flexible(
+                child: Text(
+                  '($completed of $total tasks done)',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDark ? Colors.grey[400] : Colors.grey[600],
+                  ),
                 ),
               ),
               const Spacer(),

@@ -7064,7 +7064,7 @@
     "vendor/dragonmantank/cron-expression/LICENSE": "7cf1e89d160af24781c694391c38b570",
     "artisan": "5d69155283c9cb275b8b0b78ca76fefc",
     "database/migrations/2026_07_30_000001_create_users_and_tasks_tables.php": "06a8e1642dcf05e1c4957ae796463545",
-    "composer.json": "adb21a9ad17580fb21fe90136f06bdc8",
+    "composer.json": "a0813c30dbe5af5db6f8f210894f5b39",
     ".env": "3f7be909cd66f3fe5f68c567f4f0ea43",
     "app/Models/Task.php": "61f64edb347a296749afb445959debfd",
     "app/Models/User.php": "9504a607b5a28f362dc63ef0845b6988",
@@ -7139,8 +7139,8 @@
     },
     "composer.json": {
       "size": 1189,
-      "mtime": 1785373789373,
-      "md5": "adb21a9ad17580fb21fe90136f06bdc8"
+      "mtime": 1785374075872,
+      "md5": "a0813c30dbe5af5db6f8f210894f5b39"
     },
     "composer.lock": {
       "size": 238473,

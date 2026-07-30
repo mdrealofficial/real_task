@@ -24,7 +24,8 @@ class TopHeader extends StatelessWidget {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isCompact = constraints.maxWidth < 600;
+          final isNarrow = constraints.maxWidth < 720;
+          final isVeryNarrow = constraints.maxWidth < 540;
 
           return Row(
             children: [
@@ -32,45 +33,48 @@ class TopHeader extends StatelessWidget {
               Text(
                 _getCategoryTitle(taskProvider.activeCategory),
                 style: TextStyle(
-                  fontSize: isCompact ? 14 : 16,
+                  fontSize: isVeryNarrow ? 13 : 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
+              const SizedBox(width: 8),
+
+              // Centered App Name: Task Flow (shown when ample header width)
+              if (!isNarrow) ...[
+                const Spacer(),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryIndigo.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 16),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Task Flow',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.5,
+                        color: isDark ? Colors.white : AppTheme.darkCard,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+
               const Spacer(),
 
-              // Centered App Name: Task Flow
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryIndigo.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 18),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Task Flow',
-                    style: TextStyle(
-                      fontSize: isCompact ? 16 : 18,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.5,
-                      color: isDark ? Colors.white : AppTheme.darkCard,
-                    ),
-                  ),
-                ],
-              ),
-
-              const Spacer(),
-
-              // Search Field
-              SizedBox(
-                width: isCompact ? 140 : 200,
-                height: 36,
+              // Flexible Search Field
+              Flexible(
                 child: Container(
+                  height: 36,
+                  constraints: const BoxConstraints(maxWidth: 180, minWidth: 80),
                   decoration: BoxDecoration(
                     color: isDark ? AppTheme.darkBg : Colors.grey[100],
                     borderRadius: BorderRadius.circular(8),
@@ -79,7 +83,7 @@ class TopHeader extends StatelessWidget {
                   child: TextField(
                     onChanged: (val) => taskProvider.setSearchQuery(val),
                     decoration: InputDecoration(
-                      hintText: isCompact ? 'Search...' : 'Search tasks...',
+                      hintText: isVeryNarrow ? 'Search' : 'Search...',
                       hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                       prefixIcon: const Icon(Icons.search, size: 16, color: Colors.grey),
                       border: InputBorder.none,
@@ -89,7 +93,7 @@ class TopHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
 
               // View Mode Selector (List vs Kanban)
               Container(
@@ -103,14 +107,14 @@ class TopHeader extends StatelessWidget {
                     _buildViewToggleButton(
                       context: context,
                       icon: Icons.view_list_outlined,
-                      label: isCompact ? '' : 'List',
+                      label: isNarrow ? '' : 'List',
                       isSelected: navProvider.viewMode == ViewMode.list,
                       onTap: () => navProvider.setViewMode(ViewMode.list),
                     ),
                     _buildViewToggleButton(
                       context: context,
                       icon: Icons.view_kanban_outlined,
-                      label: isCompact ? '' : 'Kanban',
+                      label: isNarrow ? '' : 'Kanban',
                       isSelected: navProvider.viewMode == ViewMode.kanban,
                       onTap: () => navProvider.setViewMode(ViewMode.kanban),
                     ),
@@ -118,7 +122,7 @@ class TopHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
 
               // New Task Button
               ElevatedButton.icon(
@@ -127,11 +131,11 @@ class TopHeader extends StatelessWidget {
                   backgroundColor: AppTheme.primaryIndigo,
                   foregroundColor: Colors.white,
                   elevation: 0,
-                  padding: EdgeInsets.symmetric(horizontal: isCompact ? 10 : 12, vertical: 8),
+                  padding: EdgeInsets.symmetric(horizontal: isVeryNarrow ? 8 : 10, vertical: 8),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 icon: const Icon(Icons.add, size: 16),
-                label: Text(isCompact ? 'New' : 'New Task', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                label: Text(isVeryNarrow ? 'New' : 'New Task', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
               ),
             ],
           );
@@ -162,21 +166,24 @@ class TopHeader extends StatelessWidget {
               : null,
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
               size: 16,
               color: isSelected ? AppTheme.primaryIndigo : Colors.grey,
             ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? (isDark ? Colors.white : Colors.black87) : Colors.grey,
+            if (label.isNotEmpty) ...[
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  color: isSelected ? (isDark ? Colors.white : AppTheme.darkCard) : Colors.grey,
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
@@ -186,9 +193,9 @@ class TopHeader extends StatelessWidget {
   String _getCategoryTitle(TaskFilterCategory category) {
     switch (category) {
       case TaskFilterCategory.today:
-        return 'Today\'s Tasks';
+        return "Today's Tasks";
       case TaskFilterCategory.upcoming:
-        return 'Upcoming Schedule';
+        return 'Upcoming Tasks';
       case TaskFilterCategory.inbox:
         return 'Inbox & Backlog';
       case TaskFilterCategory.recurring:
@@ -196,7 +203,7 @@ class TopHeader extends StatelessWidget {
       case TaskFilterCategory.work:
         return 'Work & Development';
       case TaskFilterCategory.personal:
-        return 'Personal';
+        return 'Personal Tasks';
       case TaskFilterCategory.health:
         return 'Health & Wellness';
     }
