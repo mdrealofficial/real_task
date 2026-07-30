@@ -39,6 +39,13 @@ class TaskApiController extends Controller
         }
 
         foreach ($tasksData as $taskData) {
+            $tagsVal = null;
+            if (isset($taskData['tags'])) {
+                $tagsVal = is_array($taskData['tags']) ? implode(',', $taskData['tags']) : $taskData['tags'];
+            } elseif (isset($taskData['tags_json'])) {
+                $tagsVal = $taskData['tags_json'];
+            }
+
             Task::updateOrCreate(
                 ['id' => $taskData['id']],
                 [
@@ -47,16 +54,16 @@ class TaskApiController extends Controller
                     'description' => $taskData['description'] ?? null,
                     'status' => $taskData['status'],
                     'priority' => $taskData['priority'],
-                    'due_date' => $taskData['dueDate'] ?? null,
-                    'start_time' => $taskData['startTime'] ?? null,
-                    'end_time' => $taskData['endTime'] ?? null,
-                    'tags_json' => isset($taskData['tags']) ? implode(',', $taskData['tags']) : null,
-                    'checklist_json' => isset($taskData['checklist']) ? json_encode($taskData['checklist']) : null,
-                    'recurrence_json' => isset($taskData['recurrence']) ? json_encode($taskData['recurrence']) : null,
-                    'reminders_json' => isset($taskData['reminders']) ? json_encode($taskData['reminders']) : null,
+                    'due_date' => $taskData['dueDate'] ?? $taskData['due_date'] ?? null,
+                    'start_time' => $taskData['startTime'] ?? $taskData['start_time'] ?? null,
+                    'end_time' => $taskData['endTime'] ?? $taskData['end_time'] ?? null,
+                    'tags_json' => $tagsVal,
+                    'checklist_json' => isset($taskData['checklist']) ? (is_string($taskData['checklist']) ? $taskData['checklist'] : json_encode($taskData['checklist'])) : ($taskData['checklist_json'] ?? null),
+                    'recurrence_json' => isset($taskData['recurrence']) ? (is_string($taskData['recurrence']) ? $taskData['recurrence'] : json_encode($taskData['recurrence'])) : ($taskData['recurrence_json'] ?? null),
+                    'reminders_json' => isset($taskData['reminders']) ? (is_string($taskData['reminders']) ? $taskData['reminders'] : json_encode($taskData['reminders'])) : ($taskData['reminders_json'] ?? null),
                     'version' => $taskData['version'] ?? 1,
-                    'updated_at' => $taskData['updatedAt'] ?? now(),
-                    'completed_at' => $taskData['completedAt'] ?? null,
+                    'updated_at' => $taskData['updatedAt'] ?? $taskData['updated_at'] ?? now(),
+                    'completed_at' => $taskData['completedAt'] ?? $taskData['completed_at'] ?? null,
                 ]
             );
         }

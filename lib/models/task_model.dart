@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'checklist_model.dart';
 import 'recurrence_model.dart';
 import 'reminder_model.dart';
@@ -79,45 +80,90 @@ class Task {
     };
   }
 
-  factory Task.fromJson(Map<String, dynamic> json) {
+  factory Task.fromJson(Map<String, dynamic> jsonMap) {
+    // Parse tags
+    List<String> parsedTags = [];
+    if (jsonMap['tags'] != null && jsonMap['tags'] is List) {
+      parsedTags = (jsonMap['tags'] as List).map((e) => e.toString()).toList();
+    } else if (jsonMap['tags_json'] != null && jsonMap['tags_json'].toString().isNotEmpty) {
+      parsedTags = jsonMap['tags_json'].toString().split(',');
+    }
+
+    // Parse checklist
+    List<ChecklistItem> parsedChecklist = [];
+    final rawChecklist = jsonMap['checklist'] ?? jsonMap['checklist_json'];
+    if (rawChecklist != null) {
+      dynamic listData = rawChecklist;
+      if (listData is String && listData.isNotEmpty) {
+        try {
+          listData = json.decode(listData);
+        } catch (_) {}
+      }
+      if (listData is List) {
+        parsedChecklist = listData.map((e) => ChecklistItem.fromJson(e as Map<String, dynamic>)).toList();
+      }
+    }
+
+    // Parse reminders
+    List<ReminderRule> parsedReminders = [];
+    final rawReminders = jsonMap['reminders'] ?? jsonMap['reminders_json'];
+    if (rawReminders != null) {
+      dynamic listData = rawReminders;
+      if (listData is String && listData.isNotEmpty) {
+        try {
+          listData = json.decode(listData);
+        } catch (_) {}
+      }
+      if (listData is List) {
+        parsedReminders = listData.map((e) => ReminderRule.fromJson(e as Map<String, dynamic>)).toList();
+      }
+    }
+
+    // Parse recurrence
+    RecurrenceRule? parsedRecurrence;
+    final rawRec = jsonMap['recurrence'] ?? jsonMap['recurrence_json'];
+    if (rawRec != null) {
+      dynamic recData = rawRec;
+      if (recData is String && recData.isNotEmpty) {
+        try {
+          recData = json.decode(recData);
+        } catch (_) {}
+      }
+      if (recData is Map<String, dynamic>) {
+        parsedRecurrence = RecurrenceRule.fromJson(recData);
+      }
+    }
+
+    // Parse Dates
+    final rawDueDate = jsonMap['dueDate'] ?? jsonMap['due_date'];
+    final rawCreatedAt = jsonMap['createdAt'] ?? jsonMap['created_at'];
+    final rawUpdatedAt = jsonMap['updatedAt'] ?? jsonMap['updated_at'];
+    final rawCompletedAt = jsonMap['completedAt'] ?? jsonMap['completed_at'];
+
     return Task(
-      id: json['id'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String?,
+      id: jsonMap['id'] as String,
+      title: jsonMap['title'] as String,
+      description: jsonMap['description'] as String?,
       status: TaskStatus.values.firstWhere(
-        (e) => e.name == json['status'],
+        (e) => e.name == jsonMap['status'],
         orElse: () => TaskStatus.todo,
       ),
       priority: TaskPriority.values.firstWhere(
-        (e) => e.name == json['priority'],
+        (e) => e.name == jsonMap['priority'],
         orElse: () => TaskPriority.p3,
       ),
-      projectId: json['projectId'] as String?,
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-      dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate'] as String) : null,
-      startTime: json['startTime'] as String?,
-      endTime: json['endTime'] as String?,
-      reminders: (json['reminders'] as List<dynamic>?)
-              ?.map((e) => ReminderRule.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      recurrence: json['recurrence'] != null
-          ? RecurrenceRule.fromJson(json['recurrence'] as Map<String, dynamic>)
-          : null,
-      checklist: (json['checklist'] as List<dynamic>?)
-              ?.map((e) => ChecklistItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'] as String)
-          : DateTime.now(),
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
-          : DateTime.now(),
-      completedAt: json['completedAt'] != null
-          ? DateTime.parse(json['completedAt'] as String)
-          : null,
-      version: json['version'] as int? ?? 1,
+      projectId: (jsonMap['projectId'] ?? jsonMap['project_id']) as String?,
+      tags: parsedTags,
+      dueDate: rawDueDate != null ? DateTime.tryParse(rawDueDate.toString()) : null,
+      startTime: (jsonMap['startTime'] ?? jsonMap['start_time']) as String?,
+      endTime: (jsonMap['endTime'] ?? jsonMap['end_time']) as String?,
+      reminders: parsedReminders,
+      recurrence: parsedRecurrence,
+      checklist: parsedChecklist,
+      createdAt: rawCreatedAt != null ? (DateTime.tryParse(rawCreatedAt.toString()) ?? DateTime.now()) : DateTime.now(),
+      updatedAt: rawUpdatedAt != null ? (DateTime.tryParse(rawUpdatedAt.toString()) ?? DateTime.now()) : DateTime.now(),
+      completedAt: rawCompletedAt != null ? DateTime.tryParse(rawCompletedAt.toString()) : null,
+      version: jsonMap['version'] as int? ?? 1,
     );
   }
 
