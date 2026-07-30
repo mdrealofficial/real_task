@@ -4,6 +4,7 @@ import '../../models/task_model.dart';
 import '../../providers/navigation_provider.dart';
 import '../../providers/task_provider.dart';
 import '../../theme/app_theme.dart';
+import '../dialogs/create_task_dialog.dart';
 import 'package:intl/intl.dart';
 
 class KanbanBoardView extends StatelessWidget {
@@ -331,30 +332,9 @@ class KanbanBoardView extends StatelessWidget {
   }
 
   void _showQuickTaskModal(BuildContext context, TaskStatus status) {
-    final textController = TextEditingController();
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('New Task in ${status.name.toUpperCase()}', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        content: TextField(
-          controller: textController,
-          autofocus: true,
-          decoration: const InputDecoration(hintText: 'Enter task title...'),
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          ElevatedButton(
-            onPressed: () {
-              if (textController.text.trim().isNotEmpty) {
-                final taskProvider = Provider.of<TaskProvider>(context, listen: false);
-                taskProvider.createQuickTask(textController.text.trim());
-              }
-              Navigator.pop(ctx);
-            },
-            child: const Text('Create'),
-          ),
-        ],
-      ),
+      builder: (ctx) => CreateTaskDialog(initialStatus: status),
     );
   }
 }

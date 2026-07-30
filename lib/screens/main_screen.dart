@@ -11,6 +11,7 @@ import '../widgets/views/task_list_view.dart';
 import '../widgets/views/kanban_board_view.dart';
 import '../widgets/dialogs/task_detail_drawer.dart';
 import '../widgets/dialogs/alarm_overlay_dialog.dart';
+import '../widgets/dialogs/create_task_dialog.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -116,35 +117,9 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _showQuickCreateTaskDialog(BuildContext context) {
-    final textController = TextEditingController();
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Create New Task', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        content: TextField(
-          controller: textController,
-          autofocus: true,
-          decoration: const InputDecoration(hintText: 'What needs to be done?'),
-          onSubmitted: (val) {
-            if (val.trim().isNotEmpty) {
-              Provider.of<TaskProvider>(context, listen: false).createQuickTask(val.trim());
-            }
-            Navigator.pop(ctx);
-          },
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          ElevatedButton(
-            onPressed: () {
-              if (textController.text.trim().isNotEmpty) {
-                Provider.of<TaskProvider>(context, listen: false).createQuickTask(textController.text.trim());
-              }
-              Navigator.pop(ctx);
-            },
-            child: const Text('Create Task'),
-          ),
-        ],
-      ),
+      builder: (ctx) => const CreateTaskDialog(),
     );
   }
 }
