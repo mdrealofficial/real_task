@@ -4,14 +4,18 @@ import 'package:home_widget/home_widget.dart';
 class WidgetService {
   static const String appGroupId = 'group.com.realtask.app';
   static const String iOSWidgetName = 'TaskFlowWidget';
-  static const String macOSWidgetName = 'TaskFlowMacWidget';
 
-  /// Update macOS and Mobile Home Screen Widgets with Today's Progress Stats
+  /// Update Mobile Home Screen Widgets with Today's Progress Stats
   static Future<void> updateHomeScreenWidget({
     required double completionPercentage,
     required int completedCount,
     required int totalCount,
   }) async {
+    // home_widget plugin is designed for iOS & Android Home Screen Widgets
+    if (kIsWeb || (defaultTargetPlatform != TargetPlatform.iOS && defaultTargetPlatform != TargetPlatform.android)) {
+      return;
+    }
+
     try {
       await HomeWidget.setAppGroupId(appGroupId);
 
@@ -19,7 +23,6 @@ class WidgetService {
       await HomeWidget.saveWidgetData<int>('completed_count', completedCount);
       await HomeWidget.saveWidgetData<int>('total_count', totalCount);
 
-      // Trigger Widget updates for Mobile (iOS/Android) and macOS
       await HomeWidget.updateWidget(
         name: iOSWidgetName,
         iOSName: iOSWidgetName,

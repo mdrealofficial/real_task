@@ -236,20 +236,26 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
                 ),
                 child: Column(
                   children: [
-                    CheckboxListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('15-Minute Pre-Reminder Alarm', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                      subtitle: const Text('Triggers alarm 15 minutes before task start time', style: TextStyle(fontSize: 11, color: Colors.grey)),
-                      value: _enable15mReminder,
-                      onChanged: (val) => setState(() => _enable15mReminder = val ?? false),
+                    Material(
+                      color: Colors.transparent,
+                      child: CheckboxListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('15-Minute Pre-Reminder Alarm', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                        subtitle: const Text('Triggers alarm 15 minutes before task start time', style: TextStyle(fontSize: 11, color: Colors.grey)),
+                        value: _enable15mReminder,
+                        onChanged: (val) => setState(() => _enable15mReminder = val ?? false),
+                      ),
                     ),
-                    CheckboxListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Exact Start Time Alarm', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-                      value: _enableStartTimeReminder,
-                      onChanged: (val) => setState(() => _enableStartTimeReminder = val ?? false),
+                    Material(
+                      color: Colors.transparent,
+                      child: CheckboxListTile(
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        title: const Text('Exact Start Time Alarm', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                        value: _enableStartTimeReminder,
+                        onChanged: (val) => setState(() => _enableStartTimeReminder = val ?? false),
+                      ),
                     ),
                   ],
                 ),
