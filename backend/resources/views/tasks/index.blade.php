@@ -63,7 +63,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.13</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.14</div>
     </div>
   </aside>
 
@@ -141,10 +141,10 @@
                     @endif
                     <div class="card-meta">
                       <span><i class="fa-regular fa-clock"></i> {{ $t->due_date ? date('M d', strtotime($t->due_date)) : 'No Date' }}</span>
-                      <form action="{{ route('tasks.destroy', $t->id) }}" method="POST" onclick="event.stopPropagation();">
+                      <form action="{{ route('tasks.destroy', $t->id) }}" method="POST" onclick="event.stopPropagation();" onsubmit="return confirm('Are you sure you want to delete this task? This action cannot be undone.');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                        <button type="submit" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;" title="Delete Task"><i class="fa-solid fa-trash"></i></button>
                       </form>
                     </div>
                   </div>
@@ -168,10 +168,10 @@
                 <div style="font-size:11px; color:var(--text-muted);">{{ $t->due_date ? date('M d, Y', strtotime($t->due_date)) : 'No Date' }}</div>
               </div>
               <span class="card-badge badge-{{ $t->priority ?? 'p3' }}">{{ strtoupper($t->priority ?? 'P3') }}</span>
-              <form action="{{ route('tasks.destroy', $t->id) }}" method="POST" onclick="event.stopPropagation();">
+              <form action="{{ route('tasks.destroy', $t->id) }}" method="POST" onclick="event.stopPropagation();" onsubmit="return confirm('Are you sure you want to delete this task? This action cannot be undone.');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                <button type="submit" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;" title="Delete Task"><i class="fa-solid fa-trash"></i></button>
               </form>
             </div>
           @endforeach
@@ -260,6 +260,7 @@
       <div id="viewActivityLogBox" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:10px; padding:12px; font-size:12px; margin-bottom:16px;"></div>
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button type="button" class="btn btn-outline" style="color:var(--accent-rose); border-color:var(--accent-rose);" onclick="confirmDeleteWebTask()"><i class="fa-solid fa-trash"></i> Delete Task</button>
         <button type="button" class="btn btn-outline" onclick="closeDetailModal()">Close</button>
         <button type="button" class="btn btn-primary" onclick="switchToWebEditMode()"><i class="fa-solid fa-pen-to-square"></i> Edit Task</button>
       </div>
@@ -397,6 +398,18 @@
 
   function closeDetailModal() {
     document.getElementById('detailModal').classList.remove('show');
+  }
+
+  function confirmDeleteWebTask() {
+    if (!activeDetailTaskId) return;
+    if (confirm('Are you sure you want to delete this task? This action cannot be undone.')) {
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/tasks/' + activeDetailTaskId;
+      form.innerHTML = `<input type="hidden" name="_token" value="{{ csrf_token() }}"><input type="hidden" name="_method" value="DELETE">`;
+      document.body.appendChild(form);
+      form.submit();
+    }
   }
 
   function switchToWebEditMode() {

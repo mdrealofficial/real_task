@@ -37,6 +37,40 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
     super.dispose();
   }
 
+  void _confirmDeleteTask(BuildContext context, TaskProvider taskProvider, NavigationProvider navProvider, String taskId) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.warning_amber_rounded, color: Colors.redAccent),
+            SizedBox(width: 8),
+            Text('Delete Task?'),
+          ],
+        ),
+        content: const Text('Are you sure you want to delete this task? This action cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              taskProvider.deleteTask(taskId);
+              navProvider.closeTaskDetailDrawer();
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final taskProvider = Provider.of<TaskProvider>(context);
@@ -91,14 +125,13 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
                   tooltip: _isEditing ? 'View Mode' : 'Edit Task',
                 ),
 
+                // Delete Button with Native Confirmation Dialog
                 IconButton(
                   icon: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 20),
-                  onPressed: () {
-                    taskProvider.deleteTask(task.id);
-                    navProvider.closeTaskDetailDrawer();
-                  },
+                  onPressed: () => _confirmDeleteTask(context, taskProvider, navProvider, task.id),
                   tooltip: 'Delete Task',
                 ),
+
                 IconButton(
                   icon: const Icon(Icons.close, size: 20),
                   onPressed: () => navProvider.closeTaskDetailDrawer(),
@@ -272,17 +305,37 @@ class _TaskDetailDrawerState extends State<TaskDetailDrawer> {
 
                   const SizedBox(height: 24),
 
-                  // Action: Switch to Edit Mode
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppTheme.primaryIndigo,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                    onPressed: () => setState(() => _isEditing = true),
-                    icon: const Icon(Icons.edit, size: 18),
-                    label: const Text('Edit Task Details', style: TextStyle(fontWeight: FontWeight.bold)),
+                  // Action Buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.redAccent,
+                            side: const BorderSide(color: Colors.redAccent),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          onPressed: () => _confirmDeleteTask(context, taskProvider, navProvider, task.id),
+                          icon: const Icon(Icons.delete_outline, size: 18),
+                          label: const Text('Delete Task', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.primaryIndigo,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          onPressed: () => setState(() => _isEditing = true),
+                          icon: const Icon(Icons.edit, size: 18),
+                          label: const Text('Edit Task', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ],
                   ),
                 ] else ...[
                   // ================= FULL EDIT MODE =================
