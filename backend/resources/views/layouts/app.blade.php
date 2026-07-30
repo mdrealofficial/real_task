@@ -45,7 +45,7 @@
     /* Sidebar Navigation */
     .sidebar {
       width: 240px; background: var(--card-bg); border-right: 1px solid var(--border-color);
-      display: flex; flex-direction: column; transition: width 0.3s; z-index: 100;
+      display: flex; flex-direction: column; transition: width 0.3s; z-index: 100; flex-shrink: 0;
     }
     .sidebar.collapsed { width: 64px; }
     .sidebar-header {
@@ -161,12 +161,14 @@
       border: 1px solid var(--border-color); box-shadow: var(--shadow-lg); max-height: 90vh; overflow-y: auto;
     }
 
+    .mobile-menu-btn { display: none; }
     @media (max-width: 768px) {
       .sidebar { position: absolute; left: -240px; height: 100%; }
       .sidebar.open { left: 0; }
       .brand-title { display: none; }
       .search-box { max-width: 130px; }
       .content-viewport { padding: 12px; }
+      .mobile-menu-btn { display: inline-flex; }
     }
   </style>
   @yield('styles')

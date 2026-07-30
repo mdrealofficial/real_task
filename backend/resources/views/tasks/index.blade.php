@@ -43,7 +43,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.21</div>
+      <div style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Task Flow v1.0.22</div>
     </div>
   </aside>
 
@@ -51,7 +51,7 @@
   <main class="main-canvas">
     <!-- Top Navigation Header -->
     <header class="top-header">
-      <button class="btn btn-outline" onclick="toggleSidebar()" style="padding: 6px 10px;"><i class="fa-solid fa-bars"></i></button>
+      <button class="btn btn-outline mobile-menu-btn" onclick="toggleSidebar()" style="padding: 6px 10px;"><i class="fa-solid fa-bars"></i></button>
       <h1 class="category-title">{{ ucfirst($category) }} Tasks</h1>
 
       <form action="{{ route('dashboard') }}" method="GET" class="search-box">
