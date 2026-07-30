@@ -32,16 +32,45 @@ class TopHeader extends StatelessWidget {
               Text(
                 _getCategoryTitle(taskProvider.activeCategory),
                 style: TextStyle(
-                  fontSize: isCompact ? 15 : 18,
+                  fontSize: isCompact ? 14 : 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(width: 12),
+
+              const Spacer(),
+
+              // Centered App Name: Task Flow
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryIndigo.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 18),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Task Flow',
+                    style: TextStyle(
+                      fontSize: isCompact ? 16 : 18,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 0.5,
+                      color: isDark ? Colors.white : AppTheme.darkCard,
+                    ),
+                  ),
+                ],
+              ),
+
+              const Spacer(),
 
               // Search Field
-              Expanded(
+              SizedBox(
+                width: isCompact ? 140 : 200,
+                height: 36,
                 child: Container(
-                  height: 36,
                   decoration: BoxDecoration(
                     color: isDark ? AppTheme.darkBg : Colors.grey[100],
                     borderRadius: BorderRadius.circular(8),
@@ -50,7 +79,7 @@ class TopHeader extends StatelessWidget {
                   child: TextField(
                     onChanged: (val) => taskProvider.setSearchQuery(val),
                     decoration: InputDecoration(
-                      hintText: isCompact ? 'Search...' : 'Search tasks (Cmd+K)',
+                      hintText: isCompact ? 'Search...' : 'Search tasks...',
                       hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
                       prefixIcon: const Icon(Icons.search, size: 16, color: Colors.grey),
                       border: InputBorder.none,

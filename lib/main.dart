@@ -47,7 +47,7 @@ class TaskFlowApp extends StatelessWidget {
           }
 
           return MaterialApp(
-            title: 'TaskFlow',
+            title: 'Task Flow',
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
