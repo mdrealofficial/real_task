@@ -138,6 +138,30 @@ class TaskWebController extends Controller
     }
 
     /**
+     * Update full task details from Web Edit Modal.
+     */
+    public function update(Request $request, $id)
+    {
+        $task = Task::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $task->title = $request->input('title');
+        $task->description = $request->input('description');
+        $task->priority = $request->input('priority', $task->priority);
+        $task->status = $request->input('status', $task->status);
+        $task->due_date = $request->input('due_date');
+        $task->start_time = $request->input('start_time');
+        $task->end_time = $request->input('end_time');
+        $task->version = ($task->version ?? 1) + 1;
+        $task->save();
+
+        return redirect()->route('dashboard')->with('success', 'Task updated successfully!');
+    }
+
+    /**
      * Delete a task.
      */
     public function destroy($id)
