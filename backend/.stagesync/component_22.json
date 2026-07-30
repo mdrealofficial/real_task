@@ -6,7 +6,7 @@
   "local_sync_dir": "/Users/mdreal/StudioProjects/real_task/backend",
   "push_ignored_patterns": ".env",
   "ignored_patterns": ".env",
-  "pull_ignored_patterns": "",
+  "pull_ignored_patterns": ".env",
   "files": {
     "vendor/doctrine/lexer/composer.json": "00183e1f71f12558922060037060a0b6",
     "vendor/doctrine/lexer/src/AbstractLexer.php": "bccafaf03f1bf5dd7be2d0ff475eb742",
@@ -7064,7 +7064,7 @@
     "vendor/dragonmantank/cron-expression/LICENSE": "7cf1e89d160af24781c694391c38b570",
     "artisan": "5d69155283c9cb275b8b0b78ca76fefc",
     "database/migrations/2026_07_30_000001_create_users_and_tasks_tables.php": "06a8e1642dcf05e1c4957ae796463545",
-    "composer.json": "71757cb6b53a0acfd277b4d73376ed54",
+    "composer.json": "f1f2a8b6a2d3f3fe170db66ca6883def",
     ".env": "3f7be909cd66f3fe5f68c567f4f0ea43",
     "app/Models/Task.php": "61f64edb347a296749afb445959debfd",
     "app/Models/User.php": "9504a607b5a28f362dc63ef0845b6988",
@@ -7074,9 +7074,9 @@
     "routes/web.php": "abfa4b16006199e320c3a7190c1fc3da",
     "routes/api.php": "c3a399ffe54c4021b1b6fe80ec11d480",
     "routes/console.php": "3c6ce2e6d16444282b24a9aa63885563",
-    "storage/logs/laravel.log": "e7051c048a742606d27f81aa105812fb",
+    "storage/logs/laravel.log": "7d952de30ba4537058b65a6f290450c1",
     "bootstrap/app.php": "679f1edf798d9765788ebab3dff42180",
-    ".env.example": "4c3132d19ef250d1058306642be93e59",
+    ".env.example": "fc6242e9523276c038093a191a66e082",
     "public/index.php": "db977d885594b5f6f5991557e18e804a",
     "public/.htaccess": "88e493571a271802b6dbe4f1c6bb227b",
     "composer.lock": "83da1a9a8bb9a007ef6dbcbe46726ce1",
@@ -7084,16 +7084,69 @@
     "config/app.php": "8f2c5a76d97220edc23d02e79ec41843",
     "config/database.php": "402d61592e82070d48c3faa0e561063c",
     "resources/views/app.blade.php": "6287a09f97f7d72aca45191ad75c9701",
-    "resources/views/layouts/app.blade.php": "0ee522e3ca004a0df9a68b786d1e3093",
-    "app/Http/Controllers/Web/TaskWebController.php": "04d71f96ebacf90bbd456ce41594fba1",
-    "resources/views/auth/login.blade.php": "714c779f7834705ea8fd896269caeb55",
-    "resources/views/tasks/index.blade.php": "7bf5c3f25f75bd70dc23345741aca47a"
+    "resources/views/layouts/app.blade.php": "60e33f820e8f078b646b1df08ac1af29",
+    "app/Http/Controllers/Web/TaskWebController.php": "b4ef5e672fba632ab6f417e251f76267",
+    "resources/views/auth/login.blade.php": "bf0ffdeb4540cd2ed824c382bf53aff0",
+    "resources/views/tasks/index.blade.php": "a574abdf8f9f5e40eab4f78afd866ecf",
+    "bootstrap/cache/packages.php": "e6ddc7ecb44dcbd7562a0af35c92125a",
+    "bootstrap/cache/services.php": "eb7a01cfcf8b6b25b8086168c511b13b",
+    "storage/framework/sessions/Q930wVwGX70GRmQoqoCO8p42KzhGwzunmGPLWbY4": "6799fcdd1da11d022859e85108799e64",
+    "storage/framework/sessions/TxOD1SCb27RJSzRh9S0kk2kPwutHcgg1Sbxp1OUo": "5939287b770ba7ee54f9d23619397483",
+    "storage/framework/sessions/f69s8UhHQPOyLsq9khCVbp4sh7pGFACEK2rbDsA8": "5738cc14b472fc4fe71c30c0dbfbe858",
+    "storage/framework/sessions/h4fRW7g5fW08sNjKcfZ03V1HjQldQEqu0TZaSx86": "0bca4f2e0d540b8ac2e7b6c68c5043d6",
+    "storage/framework/sessions/jiMQAIs6HaasvhcseqxbvUVd92flpW0V2NLXsUKZ": "651363a6cb37e675e90f45a4295384c2",
+    "storage/framework/sessions/xg5Nv3SaMtwxkoVeJDQ150383gq7JtumekOstMGv": "71d730ea5e505262de007575d5d7bd2e",
+    "storage/framework/views/02f350a8c66c18b56ff4e04a1538cd4f.php": "2cd725fcfacdd55700d93e376c58020e",
+    "storage/framework/views/0844d839ab05657b48d8c60319e6917c.php": "d70c7401e75932a1b1eb6c2fae6509a5",
+    "storage/framework/views/154c24152379eb954681e7daab9ac164.php": "5a92ebdf0a77e848583b2fd16f6c1b08",
+    "storage/framework/views/21ca6e49b77edb59e6c9d00232fd94fb.php": "f03532fb59906c6b149aa6618a0be159",
+    "storage/framework/views/231d2a58c04c78113aa3b359ffbc27c2.php": "9aa7d56c6da91bc3d135b67d5270c1d8",
+    "storage/framework/views/2e737650b12383dbea14b0ed109efa68.php": "1591233dfcbcf2031a6804681f7e47d5",
+    "storage/framework/views/3243329ac5eabca47d987e9d02a77a69.php": "6d9469d102593d1a32cc387733bd9668",
+    "storage/framework/views/48f7ce613d951c1780f94149035a8a4c.php": "b1646ddc02164a9d4db8f6c177c35d37",
+    "storage/framework/views/579efc8c0f3dc712fc9dcd1199744a98.php": "184b51f8be70933ee47ee5723153413a",
+    "storage/framework/views/618833d95960b15f6d68798334b230d1.php": "5c9edfc7a76ec5a0b2f589e807e86a73",
+    "storage/framework/views/62ad78853f18084d878cbce954fa0550.php": "d495c558bd795b98d80694a1081a2dc4",
+    "storage/framework/views/6ce4b680af0f1601745954e11ad963d8.php": "f015b50603c07911edee39f9aea26a63",
+    "storage/framework/views/6eef0b31ccdb9df1eace20daead7bdcb.php": "6f5c1b1bc2bab9bc28b89f1c5bb6e7f0",
+    "storage/framework/views/72f1accb0af2f98ffb5347035128a7bb.php": "81319e82a8562ffac6a91645d9840ae2",
+    "storage/framework/views/7ace72b0b8070fe6f03845e9f1ceec74.php": "0ccf3b2231679fa6650c052bea76ef0b",
+    "storage/framework/views/7f2949d9b9abdeb7cf3f102efb024b85.php": "dd9c3e936eff0a6f332fc31167c5767d",
+    "storage/framework/views/80a68246585d8eff90210ef106bbea14.php": "57588674899caddedbdc1ffecc4031a0",
+    "storage/framework/views/8392bed954a68af491234b89b8ad1626.php": "6a97025d6544aefcc8cee99dc465db53",
+    "storage/framework/views/851b2370213f592bceb7d3d0a86f1a24.php": "64fd1465c00282efa417977dc7a1f7ff",
+    "storage/framework/views/8a37776899c128562321b90ca0b165f2.php": "bf52c6cbcabe2dc2e86d9bbf0ec05768",
+    "storage/framework/views/94eed5b84eda959f68d84fa503e31ebc.php": "8ac06310335de29dca434cc82f4142a1",
+    "storage/framework/views/a630ecb7d330b4acfdd97dfc46117c99.php": "55b28e5c7a61cab8bdf740fb94f3d4fb",
+    "storage/framework/views/a749c18d6ace27cb6976c5bfe32db51b.php": "40f1fe5109b3ccd1be2b7a874b24b711",
+    "storage/framework/views/aa594017fd607c3dedfdd9ba8435b0cd.php": "aa47369a9a01a34dff73d386d1e32873",
+    "storage/framework/views/ad9d56a524690b80f50f33fdf0bcc35b.php": "765791087ecccfcefc16f561e7d85b01",
+    "storage/framework/views/ae5ab5bb0697c6cba829d9e1682354c9.php": "1df0fbf1427c88d8d148c3860136d221",
+    "storage/framework/views/af35ccf01cac928909d2929ae1513ac0.php": "e65cdf6bb2c74e6bd7fb137197c32499",
+    "storage/framework/views/b07dd95fee53a3eb95cb024de1ccbb11.php": "94f7bac21741bc1038e85de0156a6b7a",
+    "storage/framework/views/b68dd392a3e6328d59d21b29bfb36156.php": "1a760095889bb399ee1a0c136c4f4fdb",
+    "storage/framework/views/b712f34d4a12b82e7097c45f185a3ed1.php": "125d4cf1867990367ce7beb4ef888757",
+    "storage/framework/views/c3aada741c9e18e86d079e1fe58dfc1e.php": "356b7cc17ae89736b43626c5966c190d",
+    "storage/framework/views/c433600c0dfbfc569fc423410e441bd6.php": "602575d28802f75e6247b53b3e5588f6",
+    "storage/framework/views/ca075e23b79d644465b0033a0f24890a.php": "bb71d27dc27999ea8d2eb4a5dfa9649f",
+    "storage/framework/views/cb5ed2fb57331b7f916d72a9aef87e2a.php": "8f7eea6ccec8af3e0cd02581c67a3446",
+    "storage/framework/views/d68ff8fa067e4d423e41191aca1a313c.php": "db4f553718a3a5d9400d1c242a5bc0d1",
+    "storage/framework/views/d79a5346fd4b9375605fb15a78cbe773.php": "5c095c4c4a0761123702d7881da2a386",
+    "storage/framework/views/d871035055d19aba095a715c36d7ec5d.php": "28c68191c6b98d127d2c5541a816d337",
+    "storage/framework/views/dca39b575ad82f136659bbf1a70b72e5.php": "fd826c214b2ab9341c832bfa7309e76c",
+    "storage/framework/views/dccda4f4e9979271f4019051ce5466f1.php": "3276cca9709eae8e176055fec95b5bf0",
+    "storage/framework/views/e45c1ceedbcf41a50cf04f77f1374115.php": "6a7346e2358cf97654bca94231b5f001",
+    "storage/framework/views/e46f49fed4e7b6c78d6b848b1f303f0c.php": "d87ecfe36b259961d457802d3c36a615",
+    "storage/framework/views/e66b55f593000d09ec4ab51dcd733ce5.php": "d6ef3abfc2738151ef81bd51126a0ddc",
+    "storage/framework/views/e7a4cb5841d90fd371f6f950ab00888f.php": "77c897877da02b315972ae474708de81",
+    "storage/framework/views/f3759e639dc3bcae6404152056f633d8.php": "864de09aacbfc8e1a348234cc754e9c9",
+    "storage/framework/views/f4fd5c60da971645f28ce4c445121ca6.php": "1129ee5a8090f2e48c13a4d376262640"
   },
   "local_cache": {
     ".env.example": {
-      "size": 303,
-      "mtime": 1785369666814,
-      "md5": "4c3132d19ef250d1058306642be93e59"
+      "size": 340,
+      "mtime": 1785375657124,
+      "md5": "fc6242e9523276c038093a191a66e082"
     },
     "app/Http/Controllers/Api/AuthApiController.php": {
       "size": 2046,
@@ -7131,9 +7184,9 @@
       "md5": "679f1edf798d9765788ebab3dff42180"
     },
     "composer.json": {
-      "size": 1189,
-      "mtime": 1785375559212,
-      "md5": "71757cb6b53a0acfd277b4d73376ed54"
+      "size": 1188,
+      "mtime": 1785376000467,
+      "md5": "f1f2a8b6a2d3f3fe170db66ca6883def"
     },
     "composer.lock": {
       "size": 238473,
@@ -7186,9 +7239,9 @@
       "md5": "abfa4b16006199e320c3a7190c1fc3da"
     },
     "storage/logs/laravel.log": {
-      "size": 2411,
-      "mtime": 1785369883170,
-      "md5": "e7051c048a742606d27f81aa105812fb"
+      "size": 395715,
+      "mtime": 1785375716868,
+      "md5": "7d952de30ba4537058b65a6f290450c1"
     },
     "vendor/autoload.php": {
       "size": 748,
@@ -42466,24 +42519,289 @@
       "md5": "6287a09f97f7d72aca45191ad75c9701"
     },
     "resources/views/layouts/app.blade.php": {
-      "size": 10158,
-      "mtime": 1785375528457,
-      "md5": "0ee522e3ca004a0df9a68b786d1e3093"
+      "size": 11100,
+      "mtime": 1785375986150,
+      "md5": "60e33f820e8f078b646b1df08ac1af29"
     },
     "app/Http/Controllers/Web/TaskWebController.php": {
       "size": 3725,
-      "mtime": 1785375520846,
-      "md5": "04d71f96ebacf90bbd456ce41594fba1"
+      "mtime": 1785375717163,
+      "md5": "b4ef5e672fba632ab6f417e251f76267"
     },
     "resources/views/auth/login.blade.php": {
-      "size": 1472,
-      "mtime": 1785375533181,
-      "md5": "714c779f7834705ea8fd896269caeb55"
+      "size": 2954,
+      "mtime": 1785375795351,
+      "md5": "bf0ffdeb4540cd2ed824c382bf53aff0"
     },
     "resources/views/tasks/index.blade.php": {
-      "size": 10982,
-      "mtime": 1785375540785,
-      "md5": "7bf5c3f25f75bd70dc23345741aca47a"
+      "size": 11315,
+      "mtime": 1785375994560,
+      "md5": "a574abdf8f9f5e40eab4f78afd866ecf"
+    },
+    "bootstrap/cache/packages.php": {
+      "size": 712,
+      "mtime": 1785375620609,
+      "md5": "e6ddc7ecb44dcbd7562a0af35c92125a"
+    },
+    "bootstrap/cache/services.php": {
+      "size": 21525,
+      "mtime": 1785375620618,
+      "md5": "eb7a01cfcf8b6b25b8086168c511b13b"
+    },
+    "storage/framework/sessions/Q930wVwGX70GRmQoqoCO8p42KzhGwzunmGPLWbY4": {
+      "size": 209,
+      "mtime": 1785375800429,
+      "md5": "6799fcdd1da11d022859e85108799e64"
+    },
+    "storage/framework/sessions/TxOD1SCb27RJSzRh9S0kk2kPwutHcgg1Sbxp1OUo": {
+      "size": 226,
+      "mtime": 1785375876166,
+      "md5": "5939287b770ba7ee54f9d23619397483"
+    },
+    "storage/framework/sessions/f69s8UhHQPOyLsq9khCVbp4sh7pGFACEK2rbDsA8": {
+      "size": 207,
+      "mtime": 1785375664168,
+      "md5": "5738cc14b472fc4fe71c30c0dbfbe858"
+    },
+    "storage/framework/sessions/h4fRW7g5fW08sNjKcfZ03V1HjQldQEqu0TZaSx86": {
+      "size": 207,
+      "mtime": 1785376012674,
+      "md5": "0bca4f2e0d540b8ac2e7b6c68c5043d6"
+    },
+    "storage/framework/sessions/jiMQAIs6HaasvhcseqxbvUVd92flpW0V2NLXsUKZ": {
+      "size": 312,
+      "mtime": 1785376036502,
+      "md5": "651363a6cb37e675e90f45a4295384c2"
+    },
+    "storage/framework/sessions/xg5Nv3SaMtwxkoVeJDQ150383gq7JtumekOstMGv": {
+      "size": 207,
+      "mtime": 1785375722840,
+      "md5": "71d730ea5e505262de007575d5d7bd2e"
+    },
+    "storage/framework/views/02f350a8c66c18b56ff4e04a1538cd4f.php": {
+      "size": 7023,
+      "mtime": 1785375664138,
+      "md5": "2cd725fcfacdd55700d93e376c58020e"
+    },
+    "storage/framework/views/0844d839ab05657b48d8c60319e6917c.php": {
+      "size": 3288,
+      "mtime": 1785375664145,
+      "md5": "d70c7401e75932a1b1eb6c2fae6509a5"
+    },
+    "storage/framework/views/154c24152379eb954681e7daab9ac164.php": {
+      "size": 456,
+      "mtime": 1785375664160,
+      "md5": "5a92ebdf0a77e848583b2fd16f6c1b08"
+    },
+    "storage/framework/views/21ca6e49b77edb59e6c9d00232fd94fb.php": {
+      "size": 926,
+      "mtime": 1785375664139,
+      "md5": "f03532fb59906c6b149aa6618a0be159"
+    },
+    "storage/framework/views/231d2a58c04c78113aa3b359ffbc27c2.php": {
+      "size": 4025,
+      "mtime": 1785375664163,
+      "md5": "9aa7d56c6da91bc3d135b67d5270c1d8"
+    },
+    "storage/framework/views/2e737650b12383dbea14b0ed109efa68.php": {
+      "size": 2146,
+      "mtime": 1785375664135,
+      "md5": "1591233dfcbcf2031a6804681f7e47d5"
+    },
+    "storage/framework/views/3243329ac5eabca47d987e9d02a77a69.php": {
+      "size": 3088,
+      "mtime": 1785375664141,
+      "md5": "6d9469d102593d1a32cc387733bd9668"
+    },
+    "storage/framework/views/48f7ce613d951c1780f94149035a8a4c.php": {
+      "size": 10334,
+      "mtime": 1785375664136,
+      "md5": "b1646ddc02164a9d4db8f6c177c35d37"
+    },
+    "storage/framework/views/579efc8c0f3dc712fc9dcd1199744a98.php": {
+      "size": 399,
+      "mtime": 1785375664133,
+      "md5": "184b51f8be70933ee47ee5723153413a"
+    },
+    "storage/framework/views/618833d95960b15f6d68798334b230d1.php": {
+      "size": 22919,
+      "mtime": 1785375664158,
+      "md5": "5c9edfc7a76ec5a0b2f589e807e86a73"
+    },
+    "storage/framework/views/62ad78853f18084d878cbce954fa0550.php": {
+      "size": 11328,
+      "mtime": 1785376012672,
+      "md5": "d495c558bd795b98d80694a1081a2dc4"
+    },
+    "storage/framework/views/6ce4b680af0f1601745954e11ad963d8.php": {
+      "size": 10765,
+      "mtime": 1785375664139,
+      "md5": "f015b50603c07911edee39f9aea26a63"
+    },
+    "storage/framework/views/6eef0b31ccdb9df1eace20daead7bdcb.php": {
+      "size": 418,
+      "mtime": 1785375664134,
+      "md5": "6f5c1b1bc2bab9bc28b89f1c5bb6e7f0"
+    },
+    "storage/framework/views/72f1accb0af2f98ffb5347035128a7bb.php": {
+      "size": 4131,
+      "mtime": 1785375664162,
+      "md5": "81319e82a8562ffac6a91645d9840ae2"
+    },
+    "storage/framework/views/7ace72b0b8070fe6f03845e9f1ceec74.php": {
+      "size": 825,
+      "mtime": 1785375664140,
+      "md5": "0ccf3b2231679fa6650c052bea76ef0b"
+    },
+    "storage/framework/views/7f2949d9b9abdeb7cf3f102efb024b85.php": {
+      "size": 4595,
+      "mtime": 1785375664162,
+      "md5": "dd9c3e936eff0a6f332fc31167c5767d"
+    },
+    "storage/framework/views/80a68246585d8eff90210ef106bbea14.php": {
+      "size": 3230,
+      "mtime": 1785375664141,
+      "md5": "57588674899caddedbdc1ffecc4031a0"
+    },
+    "storage/framework/views/8392bed954a68af491234b89b8ad1626.php": {
+      "size": 800,
+      "mtime": 1785375664159,
+      "md5": "6a97025d6544aefcc8cee99dc465db53"
+    },
+    "storage/framework/views/851b2370213f592bceb7d3d0a86f1a24.php": {
+      "size": 2042,
+      "mtime": 1785375664160,
+      "md5": "64fd1465c00282efa417977dc7a1f7ff"
+    },
+    "storage/framework/views/8a37776899c128562321b90ca0b165f2.php": {
+      "size": 29970,
+      "mtime": 1785375664130,
+      "md5": "bf52c6cbcabe2dc2e86d9bbf0ec05768"
+    },
+    "storage/framework/views/94eed5b84eda959f68d84fa503e31ebc.php": {
+      "size": 657,
+      "mtime": 1785375664133,
+      "md5": "8ac06310335de29dca434cc82f4142a1"
+    },
+    "storage/framework/views/a630ecb7d330b4acfdd97dfc46117c99.php": {
+      "size": 3059,
+      "mtime": 1785375664135,
+      "md5": "55b28e5c7a61cab8bdf740fb94f3d4fb"
+    },
+    "storage/framework/views/a749c18d6ace27cb6976c5bfe32db51b.php": {
+      "size": 449,
+      "mtime": 1785375624864,
+      "md5": "40f1fe5109b3ccd1be2b7a874b24b711"
+    },
+    "storage/framework/views/aa594017fd607c3dedfdd9ba8435b0cd.php": {
+      "size": 455,
+      "mtime": 1785375664159,
+      "md5": "aa47369a9a01a34dff73d386d1e32873"
+    },
+    "storage/framework/views/ad9d56a524690b80f50f33fdf0bcc35b.php": {
+      "size": 4280,
+      "mtime": 1785375664137,
+      "md5": "765791087ecccfcefc16f561e7d85b01"
+    },
+    "storage/framework/views/ae5ab5bb0697c6cba829d9e1682354c9.php": {
+      "size": 418,
+      "mtime": 1785375664133,
+      "md5": "1df0fbf1427c88d8d148c3860136d221"
+    },
+    "storage/framework/views/af35ccf01cac928909d2929ae1513ac0.php": {
+      "size": 1339,
+      "mtime": 1785375664161,
+      "md5": "e65cdf6bb2c74e6bd7fb137197c32499"
+    },
+    "storage/framework/views/b07dd95fee53a3eb95cb024de1ccbb11.php": {
+      "size": 4602,
+      "mtime": 1785375664140,
+      "md5": "94f7bac21741bc1038e85de0156a6b7a"
+    },
+    "storage/framework/views/b68dd392a3e6328d59d21b29bfb36156.php": {
+      "size": 3618,
+      "mtime": 1785375664161,
+      "md5": "1a760095889bb399ee1a0c136c4f4fdb"
+    },
+    "storage/framework/views/b712f34d4a12b82e7097c45f185a3ed1.php": {
+      "size": 6285,
+      "mtime": 1785375664132,
+      "md5": "125d4cf1867990367ce7beb4ef888757"
+    },
+    "storage/framework/views/c3aada741c9e18e86d079e1fe58dfc1e.php": {
+      "size": 1064,
+      "mtime": 1785375664140,
+      "md5": "356b7cc17ae89736b43626c5966c190d"
+    },
+    "storage/framework/views/c433600c0dfbfc569fc423410e441bd6.php": {
+      "size": 557,
+      "mtime": 1785375664160,
+      "md5": "602575d28802f75e6247b53b3e5588f6"
+    },
+    "storage/framework/views/ca075e23b79d644465b0033a0f24890a.php": {
+      "size": 1867,
+      "mtime": 1785375664135,
+      "md5": "bb71d27dc27999ea8d2eb4a5dfa9649f"
+    },
+    "storage/framework/views/cb5ed2fb57331b7f916d72a9aef87e2a.php": {
+      "size": 6933,
+      "mtime": 1785375624866,
+      "md5": "8f7eea6ccec8af3e0cd02581c67a3446"
+    },
+    "storage/framework/views/d68ff8fa067e4d423e41191aca1a313c.php": {
+      "size": 1012,
+      "mtime": 1785375664137,
+      "md5": "db4f553718a3a5d9400d1c242a5bc0d1"
+    },
+    "storage/framework/views/d79a5346fd4b9375605fb15a78cbe773.php": {
+      "size": 11029,
+      "mtime": 1785375664145,
+      "md5": "5c095c4c4a0761123702d7881da2a386"
+    },
+    "storage/framework/views/d871035055d19aba095a715c36d7ec5d.php": {
+      "size": 4509,
+      "mtime": 1785375664161,
+      "md5": "28c68191c6b98d127d2c5541a816d337"
+    },
+    "storage/framework/views/dca39b575ad82f136659bbf1a70b72e5.php": {
+      "size": 2917,
+      "mtime": 1785375664163,
+      "md5": "fd826c214b2ab9341c832bfa7309e76c"
+    },
+    "storage/framework/views/dccda4f4e9979271f4019051ce5466f1.php": {
+      "size": 556,
+      "mtime": 1785375664159,
+      "md5": "3276cca9709eae8e176055fec95b5bf0"
+    },
+    "storage/framework/views/e45c1ceedbcf41a50cf04f77f1374115.php": {
+      "size": 443,
+      "mtime": 1785375624899,
+      "md5": "6a7346e2358cf97654bca94231b5f001"
+    },
+    "storage/framework/views/e46f49fed4e7b6c78d6b848b1f303f0c.php": {
+      "size": 13049,
+      "mtime": 1785376012668,
+      "md5": "d87ecfe36b259961d457802d3c36a615"
+    },
+    "storage/framework/views/e66b55f593000d09ec4ab51dcd733ce5.php": {
+      "size": 794,
+      "mtime": 1785375664140,
+      "md5": "d6ef3abfc2738151ef81bd51126a0ddc"
+    },
+    "storage/framework/views/e7a4cb5841d90fd371f6f950ab00888f.php": {
+      "size": 2629,
+      "mtime": 1785375664114,
+      "md5": "77c897877da02b315972ae474708de81"
+    },
+    "storage/framework/views/f3759e639dc3bcae6404152056f633d8.php": {
+      "size": 3290,
+      "mtime": 1785375800428,
+      "md5": "864de09aacbfc8e1a348234cc754e9c9"
+    },
+    "storage/framework/views/f4fd5c60da971645f28ce4c445121ca6.php": {
+      "size": 10401,
+      "mtime": 1785375664134,
+      "md5": "1129ee5a8090f2e48c13a4d376262640"
     }
   }
 }
