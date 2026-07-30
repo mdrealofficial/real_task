@@ -50,10 +50,10 @@ class KanbanBoardView extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      _buildKanbanColumn(context, 'Backlog', TaskStatus.backlog, columns[TaskStatus.backlog]!),
-                      _buildKanbanColumn(context, 'To Do', TaskStatus.todo, columns[TaskStatus.todo]!),
-                      _buildKanbanColumn(context, 'In Progress', TaskStatus.inProgress, columns[TaskStatus.inProgress]!),
-                      _buildKanbanColumn(context, 'Done', TaskStatus.done, columns[TaskStatus.done]!),
+                      _buildKanbanColumn(context, 'Backlog', TaskStatus.backlog, columns[TaskStatus.backlog]!, isMobile: true),
+                      _buildKanbanColumn(context, 'To Do', TaskStatus.todo, columns[TaskStatus.todo]!, isMobile: true),
+                      _buildKanbanColumn(context, 'In Progress', TaskStatus.inProgress, columns[TaskStatus.inProgress]!, isMobile: true),
+                      _buildKanbanColumn(context, 'Done', TaskStatus.done, columns[TaskStatus.done]!, isMobile: true),
                     ],
                   ),
                 ),
@@ -69,10 +69,10 @@ class KanbanBoardView extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildKanbanColumn(context, 'Backlog', TaskStatus.backlog, columns[TaskStatus.backlog]!),
-              _buildKanbanColumn(context, 'To Do', TaskStatus.todo, columns[TaskStatus.todo]!),
-              _buildKanbanColumn(context, 'In Progress', TaskStatus.inProgress, columns[TaskStatus.inProgress]!),
-              _buildKanbanColumn(context, 'Done', TaskStatus.done, columns[TaskStatus.done]!),
+              _buildKanbanColumn(context, 'Backlog', TaskStatus.backlog, columns[TaskStatus.backlog]!, isMobile: false),
+              _buildKanbanColumn(context, 'To Do', TaskStatus.todo, columns[TaskStatus.todo]!, isMobile: false),
+              _buildKanbanColumn(context, 'In Progress', TaskStatus.inProgress, columns[TaskStatus.inProgress]!, isMobile: false),
+              _buildKanbanColumn(context, 'Done', TaskStatus.done, columns[TaskStatus.done]!, isMobile: false),
             ],
           ),
         );
@@ -84,14 +84,15 @@ class KanbanBoardView extends StatelessWidget {
     BuildContext context,
     String title,
     TaskStatus status,
-    List<Task> columnTasks,
-  ) {
+    List<Task> columnTasks, {
+    required bool isMobile,
+  }) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final taskProvider = Provider.of<TaskProvider>(context, listen: false);
 
     return Container(
-      width: 280,
-      margin: const EdgeInsets.only(right: 16),
+      width: isMobile ? double.infinity : 280,
+      margin: isMobile ? const EdgeInsets.all(12) : const EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCard.withValues(alpha: 0.5) : Colors.grey[100],
         borderRadius: BorderRadius.circular(12),
@@ -163,7 +164,7 @@ class KanbanBoardView extends StatelessWidget {
                         elevation: 6,
                         borderRadius: BorderRadius.circular(10),
                         child: SizedBox(
-                          width: 260,
+                          width: isMobile ? 320 : 260,
                           child: _buildKanbanCard(context, task, isDragging: true),
                         ),
                       ),

@@ -39,80 +39,94 @@ class _MainScreenState extends State<MainScreen> {
     final navProvider = Provider.of<NavigationProvider>(context);
     final alarmService = Provider.of<AlarmService>(context);
 
-    return Scaffold(
-      body: Stack(
-        children: [
-          Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 768;
+
+        return Scaffold(
+          // Mobile Navigation Drawer (slides over content smoothly without squeezing main screen)
+          drawer: isMobile
+              ? const Drawer(
+                  width: 280,
+                  child: CollapsibleSidebar(isMobileDrawer: true),
+                )
+              : null,
+          body: Stack(
             children: [
-              // Collapsible Sidebar Navigation
-              const CollapsibleSidebar(),
+              Row(
+                children: [
+                  // Desktop / Tablet Collapsible Sidebar Navigation
+                  if (!isMobile) const CollapsibleSidebar(isMobileDrawer: false),
 
-              // Main Canvas Workspace
-              Expanded(
-                child: Column(
-                  children: [
-                    // Top Navigation Header
-                    TopHeader(
-                      onQuickAdd: () => _showQuickCreateTaskDialog(context),
+                  // Main Canvas Workspace
+                  Expanded(
+                    child: Column(
+                      children: [
+                        // Top Navigation Header
+                        TopHeader(
+                          onQuickAdd: () => _showQuickCreateTaskDialog(context),
+                          isMobile: isMobile,
+                        ),
+
+                        // Top Horizontal Progress Bar Line
+                        const TopProgressBar(),
+
+                        // Main View Content (List Mode vs Kanban Board Mode)
+                        Expanded(
+                          child: navProvider.viewMode == ViewMode.list
+                              ? const TaskListView()
+                              : const KanbanBoardView(),
+                        ),
+                      ],
                     ),
+                  ),
 
-                    // Top Horizontal Progress Bar Line
-                    const TopProgressBar(),
-
-                    // Main View Content (List Mode vs Kanban Board Mode)
-                    Expanded(
-                      child: navProvider.viewMode == ViewMode.list
-                          ? const TaskListView()
-                          : const KanbanBoardView(),
-                    ),
-                  ],
-                ),
+                  // Slide-over Right Task Detail Drawer (when active)
+                  if (navProvider.activeDrawerTaskId != null)
+                    TaskDetailDrawer(taskId: navProvider.activeDrawerTaskId!),
+                ],
               ),
 
-              // Slide-over Right Task Detail Drawer (when active)
-              if (navProvider.activeDrawerTaskId != null)
-                TaskDetailDrawer(taskId: navProvider.activeDrawerTaskId!),
+              // Alarm Overlay Dialog when triggered
+              if (alarmService.activeAlarmTask != null)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black45,
+                    child: const Center(child: AlarmOverlayDialog()),
+                  ),
+                ),
             ],
           ),
 
-          // Alarm Overlay Dialog when triggered
-          if (alarmService.activeAlarmTask != null)
-            Positioned.fill(
-              child: Container(
-                color: Colors.black45,
-                child: const Center(child: AlarmOverlayDialog()),
-              ),
-            ),
-        ],
-      ),
-
-      // Mobile Bottom Dock (on small screens)
-      bottomNavigationBar: MediaQuery.of(context).size.width < 768
-          ? BottomNavigationBar(
-              currentIndex: navProvider.mobileTabIndex,
-              onTap: (idx) {
-                navProvider.setMobileTabIndex(idx);
-                if (idx == 0) {
-                  Provider.of<TaskProvider>(context, listen: false).setCategory(TaskFilterCategory.today);
-                } else if (idx == 1) {
-                  navProvider.setViewMode(ViewMode.kanban);
-                } else if (idx == 2) {
-                  _showQuickCreateTaskDialog(context);
-                } else if (idx == 3) {
-                  final taskProvider = Provider.of<TaskProvider>(context, listen: false);
-                  Provider.of<NetworkSyncService>(context, listen: false).triggerAutoSync(taskProvider: taskProvider);
-                }
-              },
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Theme.of(context).colorScheme.primary,
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),
-                BottomNavigationBarItem(icon: Icon(Icons.view_kanban), label: 'Kanban'),
-                BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: 'Add'),
-                BottomNavigationBarItem(icon: Icon(Icons.sync), label: 'Sync'),
-              ],
-            )
-          : null,
+          // Mobile Bottom Dock (on small screens)
+          bottomNavigationBar: isMobile
+              ? BottomNavigationBar(
+                  currentIndex: navProvider.mobileTabIndex,
+                  onTap: (idx) {
+                    navProvider.setMobileTabIndex(idx);
+                    if (idx == 0) {
+                      Provider.of<TaskProvider>(context, listen: false).setCategory(TaskFilterCategory.today);
+                    } else if (idx == 1) {
+                      navProvider.setViewMode(ViewMode.kanban);
+                    } else if (idx == 2) {
+                      _showQuickCreateTaskDialog(context);
+                    } else if (idx == 3) {
+                      final taskProvider = Provider.of<TaskProvider>(context, listen: false);
+                      Provider.of<NetworkSyncService>(context, listen: false).triggerAutoSync(taskProvider: taskProvider);
+                    }
+                  },
+                  type: BottomNavigationBarType.fixed,
+                  selectedItemColor: Theme.of(context).colorScheme.primary,
+                  items: const [
+                    BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),
+                    BottomNavigationBarItem(icon: Icon(Icons.view_kanban), label: 'Kanban'),
+                    BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: 'Add'),
+                    BottomNavigationBarItem(icon: Icon(Icons.sync), label: 'Sync'),
+                  ],
+                )
+              : null,
+        );
+      },
     );
   }
 

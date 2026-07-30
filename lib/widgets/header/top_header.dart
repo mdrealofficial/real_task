@@ -6,8 +6,13 @@ import '../../theme/app_theme.dart';
 
 class TopHeader extends StatelessWidget {
   final VoidCallback onQuickAdd;
+  final bool isMobile;
 
-  const TopHeader({super.key, required this.onQuickAdd});
+  const TopHeader({
+    super.key,
+    required this.onQuickAdd,
+    this.isMobile = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,83 +22,65 @@ class TopHeader extends StatelessWidget {
 
     return Container(
       height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         color: isDark ? AppTheme.darkCard : Colors.white,
         border: Border(bottom: BorderSide(color: isDark ? AppTheme.darkBorder : AppTheme.lightBorder)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isNarrow = constraints.maxWidth < 720;
-          final isVeryNarrow = constraints.maxWidth < 540;
+          final isNarrow = constraints.maxWidth < 640;
+          final isVeryNarrow = constraints.maxWidth < 450;
 
           return Row(
             children: [
+              // Mobile Hamburger Menu Button to open drawer overlay
+              if (isMobile)
+                IconButton(
+                  icon: const Icon(Icons.menu, size: 20),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                  tooltip: 'Open Menu',
+                ),
+
               // Category Title
-              Text(
-                _getCategoryTitle(taskProvider.activeCategory),
-                style: TextStyle(
-                  fontSize: isVeryNarrow ? 13 : 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(width: 8),
-
-              // Centered App Name: Task Flow (shown when ample header width)
-              if (!isNarrow) ...[
-                const Spacer(),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryIndigo.withValues(alpha: 0.12),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(Icons.check_box_outlined, color: AppTheme.primaryIndigo, size: 16),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Task Flow',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.5,
-                        color: isDark ? Colors.white : AppTheme.darkCard,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-
-              const Spacer(),
-
-              // Flexible Search Field
-              Flexible(
-                child: Container(
-                  height: 36,
-                  constraints: const BoxConstraints(maxWidth: 180, minWidth: 80),
-                  decoration: BoxDecoration(
-                    color: isDark ? AppTheme.darkBg : Colors.grey[100],
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: isDark ? AppTheme.darkBorder : Colors.grey[300]!),
-                  ),
-                  child: TextField(
-                    onChanged: (val) => taskProvider.setSearchQuery(val),
-                    decoration: InputDecoration(
-                      hintText: isVeryNarrow ? 'Search' : 'Search...',
-                      hintStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-                      prefixIcon: const Icon(Icons.search, size: 16, color: Colors.grey),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(bottom: 12),
-                    ),
+              Expanded(
+                child: Text(
+                  _getCategoryTitle(taskProvider.activeCategory),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: isVeryNarrow ? 13 : 15,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
 
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
+
+              // Flexible Search Field (Collapses to Icon on Very Narrow Screens)
+              if (!isVeryNarrow)
+                Flexible(
+                  child: Container(
+                    height: 36,
+                    constraints: const BoxConstraints(maxWidth: 150, minWidth: 70),
+                    decoration: BoxDecoration(
+                      color: isDark ? AppTheme.darkBg : Colors.grey[100],
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: isDark ? AppTheme.darkBorder : Colors.grey[300]!),
+                    ),
+                    child: TextField(
+                      onChanged: (val) => taskProvider.setSearchQuery(val),
+                      decoration: const InputDecoration(
+                        hintText: 'Search...',
+                        hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
+                        prefixIcon: Icon(Icons.search, size: 16, color: Colors.grey),
+                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.only(bottom: 12),
+                      ),
+                    ),
+                  ),
+                ),
+
+              const SizedBox(width: 4),
 
               // View Mode Selector (List vs Kanban)
               Container(
@@ -122,7 +109,7 @@ class TopHeader extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
 
               // New Task Button
               ElevatedButton.icon(
@@ -131,7 +118,7 @@ class TopHeader extends StatelessWidget {
                   backgroundColor: AppTheme.primaryIndigo,
                   foregroundColor: Colors.white,
                   elevation: 0,
-                  padding: EdgeInsets.symmetric(horizontal: isVeryNarrow ? 8 : 10, vertical: 8),
+                  padding: EdgeInsets.symmetric(horizontal: isVeryNarrow ? 6 : 10, vertical: 8),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 icon: const Icon(Icons.add, size: 16),
@@ -157,7 +144,7 @@ class TopHeader extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(6),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? (isDark ? AppTheme.darkCard : Colors.white) : Colors.transparent,
           borderRadius: BorderRadius.circular(6),

@@ -10,7 +10,9 @@ import '../../theme/app_theme.dart';
 import '../dialogs/change_password_dialog.dart';
 
 class CollapsibleSidebar extends StatelessWidget {
-  const CollapsibleSidebar({super.key});
+  final bool isMobileDrawer;
+
+  const CollapsibleSidebar({super.key, this.isMobileDrawer = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +21,14 @@ class CollapsibleSidebar extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
     final networkSync = Provider.of<NetworkSyncService>(context);
 
-    final isCollapsed = navProvider.isSidebarCollapsed;
+    // Force expanded mode inside mobile drawer
+    final isCollapsed = isMobileDrawer ? false : navProvider.isSidebarCollapsed;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final bg = isDark ? AppTheme.darkSidebar : AppTheme.lightSidebar;
     final borderColor = isDark ? AppTheme.darkBorder : AppTheme.lightBorder;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeInOut,
-      width: isCollapsed ? 64 : 240,
+    return Container(
+      width: isMobileDrawer ? double.infinity : (isCollapsed ? 64 : 240),
       decoration: BoxDecoration(
         color: bg,
         border: Border(right: BorderSide(color: borderColor, width: 1)),
@@ -45,7 +46,7 @@ class CollapsibleSidebar extends StatelessWidget {
                     constraints: const BoxConstraints(),
                     icon: const Icon(Icons.chevron_right, size: 20),
                     onPressed: () => navProvider.toggleSidebar(),
-                    tooltip: 'Expand Sidebar (Cmd+[)',
+                    tooltip: 'Expand Sidebar',
                   )
                 : Row(
                     children: [
@@ -69,13 +70,21 @@ class CollapsibleSidebar extends StatelessWidget {
                           ),
                         ),
                       ),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(),
-                        icon: const Icon(Icons.chevron_left, size: 20),
-                        onPressed: () => navProvider.toggleSidebar(),
-                        tooltip: 'Collapse Sidebar (Cmd+[)',
-                      ),
+                      if (!isMobileDrawer)
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          icon: const Icon(Icons.chevron_left, size: 20),
+                          onPressed: () => navProvider.toggleSidebar(),
+                          tooltip: 'Collapse Sidebar',
+                        )
+                      else
+                        IconButton(
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(),
+                          icon: const Icon(Icons.close, size: 20),
+                          onPressed: () => Navigator.pop(context),
+                        ),
                     ],
                   ),
           ),
@@ -93,7 +102,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   count: taskProvider.tasks.where((t) => t.status == TaskStatus.backlog).length,
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.inbox,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.inbox),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.inbox);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
                 _buildNavItem(
                   context: context,
@@ -102,7 +114,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   count: taskProvider.tasks.where((t) => t.dueDate != null).length,
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.today,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.today),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.today);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
                 _buildNavItem(
                   context: context,
@@ -110,7 +125,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   label: 'Upcoming',
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.upcoming,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.upcoming),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.upcoming);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
                 _buildNavItem(
                   context: context,
@@ -119,7 +137,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   count: taskProvider.tasks.where((t) => t.recurrence != null).length,
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.recurring,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.recurring),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.recurring);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
 
                 const Padding(
@@ -143,7 +164,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   iconColor: Colors.amber,
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.work,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.work),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.work);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
                 _buildNavItem(
                   context: context,
@@ -152,7 +176,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   iconColor: Colors.blue,
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.personal,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.personal),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.personal);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
                 _buildNavItem(
                   context: context,
@@ -161,7 +188,10 @@ class CollapsibleSidebar extends StatelessWidget {
                   iconColor: Colors.pinkAccent,
                   isSelected: taskProvider.activeCategory == TaskFilterCategory.health,
                   isCollapsed: isCollapsed,
-                  onTap: () => taskProvider.setCategory(TaskFilterCategory.health),
+                  onTap: () {
+                    taskProvider.setCategory(TaskFilterCategory.health);
+                    if (isMobileDrawer) Navigator.pop(context);
+                  },
                 ),
               ],
             ),
@@ -259,7 +289,7 @@ class CollapsibleSidebar extends StatelessWidget {
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Task Flow App v1.0.23',
+                'Task Flow App v1.0.24',
                 style: TextStyle(fontSize: 10, color: isDark ? Colors.grey[500] : Colors.grey[400]),
               ),
             ),
@@ -300,7 +330,7 @@ class CollapsibleSidebar extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 12 : 12, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         decoration: BoxDecoration(
           color: isSelected ? activeBg : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
