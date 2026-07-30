@@ -28,7 +28,7 @@ class KanbanBoardView extends StatelessWidget {
         final isMobile = constraints.maxWidth < 768;
 
         if (isMobile) {
-          // Mobile Tabbed Column View
+          // Mobile Tabbed Column View (Full Vertical View Height)
           return DefaultTabController(
             length: 4,
             child: Column(
@@ -62,18 +62,24 @@ class KanbanBoardView extends StatelessWidget {
           );
         }
 
-        // Desktop / Tablet Multi-Column Side-by-Side View
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildKanbanColumn(context, 'Backlog', TaskStatus.backlog, columns[TaskStatus.backlog]!, isMobile: false),
-              _buildKanbanColumn(context, 'To Do', TaskStatus.todo, columns[TaskStatus.todo]!, isMobile: false),
-              _buildKanbanColumn(context, 'In Progress', TaskStatus.inProgress, columns[TaskStatus.inProgress]!, isMobile: false),
-              _buildKanbanColumn(context, 'Done', TaskStatus.done, columns[TaskStatus.done]!, isMobile: false),
-            ],
+        // Desktop / Tablet Multi-Column Side-by-Side View (Full View Height & Scrollable Columns)
+        return SizedBox(
+          height: constraints.maxHeight,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              height: constraints.maxHeight - 32,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildKanbanColumn(context, 'Backlog', TaskStatus.backlog, columns[TaskStatus.backlog]!, isMobile: false),
+                  _buildKanbanColumn(context, 'To Do', TaskStatus.todo, columns[TaskStatus.todo]!, isMobile: false),
+                  _buildKanbanColumn(context, 'In Progress', TaskStatus.inProgress, columns[TaskStatus.inProgress]!, isMobile: false),
+                  _buildKanbanColumn(context, 'Done', TaskStatus.done, columns[TaskStatus.done]!, isMobile: false),
+                ],
+              ),
+            ),
           ),
         );
       },
