@@ -63,7 +63,7 @@
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.11</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.12</div>
     </div>
   </aside>
 
@@ -231,74 +231,93 @@
   </div>
 </div>
 
-<!-- Task Details Modal Dialog (View-Only Mode by Default + Edit Toggle Button) -->
+<!-- Task Details Modal Dialog (Clean Read-Only View vs Form Editing View) -->
 <div class="modal-backdrop" id="detailModal">
   <div class="modal-box">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-      <h3 style="font-size:18px; font-weight:700;"><i class="fa-solid fa-file-lines" style="color:var(--primary);"></i> Task Details</h3>
-      <div style="display:flex; gap:8px;">
-        <button type="button" class="btn btn-outline" id="editModalBtn" onclick="toggleWebEditMode()" style="padding:4px 10px; font-size:12px;">
-          <i class="fa-solid fa-pen-to-square"></i> Edit Task
-        </button>
-        <button class="btn btn-outline" onclick="closeDetailModal()" style="padding:4px 8px;"><i class="fa-solid fa-xmark"></i></button>
-      </div>
+      <h3 style="font-size:18px; font-weight:700;" id="modalHeaderTitle"><i class="fa-solid fa-file-lines" style="color:var(--primary);"></i> Task Details</h3>
+      <button class="btn btn-outline" onclick="closeDetailModal()" style="padding:4px 8px;"><i class="fa-solid fa-xmark"></i></button>
     </div>
     
-    <form id="detailForm" action="" method="POST">
-      @csrf
-      <div class="form-group">
-        <label>Task Title</label>
-        <input type="text" id="detailTitle" name="title" class="form-control" readonly required>
-      </div>
+    <!-- 1. CLEAN READ-ONLY VIEW CONTAINER (NO INPUT FIELDS) -->
+    <div id="viewDetailContainer">
+      <h2 id="viewTitle" style="font-size:20px; font-weight:800; color:var(--text-main); margin-bottom:12px; line-height:1.3;"></h2>
       
-      <div style="display:flex; gap:10px; margin-bottom:16px;">
-        <div class="form-group" style="flex:1;">
-          <label>Status</label>
-          <select id="detailStatus" name="status" class="form-control" disabled>
-            <option value="backlog">Backlog</option>
-            <option value="todo">To Do</option>
-            <option value="inProgress">In Progress</option>
-            <option value="done">Done</option>
-          </select>
-        </div>
-        <div class="form-group" style="flex:1;">
-          <label>Priority</label>
-          <select id="detailPriority" name="priority" class="form-control" disabled>
-            <option value="p1">P1 (Urgent)</option>
-            <option value="p2">P2 (High)</option>
-            <option value="p3">P3 (Medium)</option>
-            <option value="p4">P4 (Low)</option>
-          </select>
-        </div>
+      <div style="display:flex; gap:10px; margin-bottom:16px; align-items:center;">
+        <span id="viewStatusBadge" style="padding:5px 12px; font-size:11px; font-weight:800; border-radius:6px; background:var(--primary-light); color:var(--primary); text-transform:uppercase;"></span>
+        <span id="viewPriorityBadge" style="padding:5px 12px; font-size:11px; font-weight:800; border-radius:6px; text-transform:uppercase;"></span>
       </div>
 
-      <div class="form-group">
-        <label>Description / Notes</label>
-        <textarea id="detailDescription" name="description" class="form-control" rows="3" readonly></textarea>
+      <div style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:10px; padding:12px; margin-bottom:16px;">
+        <div style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;"><i class="fa-regular fa-calendar-days" style="color:var(--primary);"></i> Schedule & Time Slot</div>
+        <div id="viewScheduleText" style="font-weight:700; font-size:13px; margin-top:6px; color:var(--text-main);"></div>
       </div>
 
-      <div style="display:flex; gap:10px; margin-bottom:16px;">
-        <div class="form-group" style="flex:1;">
-          <label>Due Date</label>
-          <input type="date" id="detailDueDate" name="due_date" class="form-control" readonly>
-        </div>
-        <div class="form-group" style="flex:1;">
-          <label>Start Time</label>
-          <input type="time" id="detailStartTime" name="start_time" class="form-control" readonly>
-        </div>
-        <div class="form-group" style="flex:1;">
-          <label>End Time</label>
-          <input type="time" id="detailEndTime" name="end_time" class="form-control" readonly>
-        </div>
-      </div>
+      <div style="font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Description / Notes</div>
+      <div id="viewDescriptionBox" style="background:var(--bg-color); border:1px solid var(--border-color); border-radius:10px; padding:12px; font-size:13px; line-height:1.5; color:var(--text-main); min-height:70px; margin-bottom:20px; white-space:pre-wrap;"></div>
 
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
         <button type="button" class="btn btn-outline" onclick="closeDetailModal()">Close</button>
-        <button type="submit" class="btn btn-primary" id="saveModalBtn" style="display:none;">
-          <i class="fa-solid fa-floppy-disk"></i> Save Changes
-        </button>
+        <button type="button" class="btn btn-primary" onclick="switchToWebEditMode()"><i class="fa-solid fa-pen-to-square"></i> Edit Task</button>
       </div>
-    </form>
+    </div>
+
+    <!-- 2. EDITING FORM CONTAINER (ONLY SHOWN WHEN EDITING) -->
+    <div id="editDetailContainer" style="display:none;">
+      <form id="detailForm" action="" method="POST">
+        @csrf
+        <div class="form-group">
+          <label>Task Title *</label>
+          <input type="text" id="detailTitle" name="title" class="form-control" required>
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-bottom:16px;">
+          <div class="form-group" style="flex:1;">
+            <label>Status</label>
+            <select id="detailStatus" name="status" class="form-control">
+              <option value="backlog">Backlog</option>
+              <option value="todo">To Do</option>
+              <option value="inProgress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label>Priority</label>
+            <select id="detailPriority" name="priority" class="form-control">
+              <option value="p1">P1 (Urgent)</option>
+              <option value="p2">P2 (High)</option>
+              <option value="p3">P3 (Medium)</option>
+              <option value="p4">P4 (Low)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Description / Notes</label>
+          <textarea id="detailDescription" name="description" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-bottom:16px;">
+          <div class="form-group" style="flex:1;">
+            <label>Due Date</label>
+            <input type="date" id="detailDueDate" name="due_date" class="form-control">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label>Start Time</label>
+            <input type="time" id="detailStartTime" name="start_time" class="form-control">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label>End Time</label>
+            <input type="time" id="detailEndTime" name="end_time" class="form-control">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+          <button type="button" class="btn btn-outline" onclick="switchToWebViewMode()">Cancel</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -306,12 +325,33 @@
 <script>
   let activeDetailTaskId = null;
   let draggedTaskId = null;
-  let isEditingWebTask = false;
 
   function openDetailModal(id, title, description, priority, status, dueDate, startTime, endTime) {
     activeDetailTaskId = id;
-    isEditingWebTask = false;
 
+    // Populate Read-Only View Elements (No input boxes)
+    document.getElementById('viewTitle').innerText = title;
+    document.getElementById('viewStatusBadge').innerText = status.toUpperCase();
+    
+    const prioLabel = priority.toUpperCase();
+    const prioBadge = document.getElementById('viewPriorityBadge');
+    prioBadge.innerText = prioLabel;
+    if (priority === 'p1') {
+      prioBadge.style.background = 'rgba(244, 63, 94, 0.15)'; prioBadge.style.color = '#f43f5e';
+    } else if (priority === 'p2') {
+      prioBadge.style.background = 'rgba(245, 158, 11, 0.15)'; prioBadge.style.color = '#f59e0b';
+    } else {
+      prioBadge.style.background = 'rgba(79, 70, 229, 0.15)'; prioBadge.style.color = '#4f46e5';
+    }
+
+    let schedText = dueDate ? ('Due Date: ' + dueDate) : 'No due date set';
+    if (startTime || endTime) {
+      schedText += ' (' + (startTime || '') + (endTime ? ' - ' + endTime : '') + ')';
+    }
+    document.getElementById('viewScheduleText').innerText = schedText;
+    document.getElementById('viewDescriptionBox').innerText = description || 'No description or notes provided for this task.';
+
+    // Populate Edit Form Input Fields
     document.getElementById('detailForm').action = '/tasks/' + id + '/update';
     document.getElementById('detailTitle').value = title;
     document.getElementById('detailDescription').value = description || '';
@@ -321,8 +361,8 @@
     document.getElementById('detailStartTime').value = startTime || '';
     document.getElementById('detailEndTime').value = endTime || '';
     
-    // View-Only Mode by Default
-    setWebModalReadOnly(true);
+    // Always start in Clean Read-Only Mode
+    switchToWebViewMode();
 
     document.getElementById('detailModal').classList.add('show');
   }
@@ -331,25 +371,16 @@
     document.getElementById('detailModal').classList.remove('show');
   }
 
-  function toggleWebEditMode() {
-    isEditingWebTask = !isEditingWebTask;
-    setWebModalReadOnly(!isEditingWebTask);
+  function switchToWebEditMode() {
+    document.getElementById('modalHeaderTitle').innerHTML = '<i class="fa-solid fa-pen-to-square" style="color:var(--primary);"></i> Edit Task';
+    document.getElementById('viewDetailContainer').style.display = 'none';
+    document.getElementById('editDetailContainer').style.display = 'block';
   }
 
-  function setWebModalReadOnly(readOnly) {
-    document.getElementById('detailTitle').readOnly = readOnly;
-    document.getElementById('detailDescription').readOnly = readOnly;
-    document.getElementById('detailDueDate').readOnly = readOnly;
-    document.getElementById('detailStartTime').readOnly = readOnly;
-    document.getElementById('detailEndTime').readOnly = readOnly;
-    
-    document.getElementById('detailStatus').disabled = readOnly;
-    document.getElementById('detailPriority').disabled = readOnly;
-
-    document.getElementById('saveModalBtn').style.display = readOnly ? 'none' : 'inline-flex';
-    document.getElementById('editModalBtn').innerHTML = readOnly 
-      ? '<i class="fa-solid fa-pen-to-square"></i> Edit Task' 
-      : '<i class="fa-solid fa-eye"></i> View Mode';
+  function switchToWebViewMode() {
+    document.getElementById('modalHeaderTitle').innerHTML = '<i class="fa-solid fa-file-lines" style="color:var(--primary);"></i> Task Details';
+    document.getElementById('viewDetailContainer').style.display = 'block';
+    document.getElementById('editDetailContainer').style.display = 'none';
   }
 
   // HTML5 Drag & Drop Handlers for Kanban Board
