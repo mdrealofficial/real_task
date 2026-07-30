@@ -5,7 +5,6 @@ import '../../providers/navigation_provider.dart';
 import '../../providers/task_provider.dart';
 import '../../services/alarm_service.dart';
 import '../../services/auth_service.dart';
-import '../../services/network_sync_service.dart';
 import '../../theme/app_theme.dart';
 import '../dialogs/change_password_dialog.dart';
 
@@ -19,7 +18,6 @@ class CollapsibleSidebar extends StatelessWidget {
     final navProvider = Provider.of<NavigationProvider>(context);
     final taskProvider = Provider.of<TaskProvider>(context);
     final authService = Provider.of<AuthService>(context);
-    final networkSync = Provider.of<NetworkSyncService>(context);
 
     // Force expanded mode inside mobile drawer
     final isCollapsed = isMobileDrawer ? false : navProvider.isSidebarCollapsed;
@@ -193,43 +191,7 @@ class CollapsibleSidebar extends StatelessWidget {
             ),
           ),
 
-          // Network Sync Status Badge
-          const Divider(height: 1),
-          InkWell(
-            onTap: () => networkSync.triggerAutoSync(taskProvider: taskProvider),
-            child: Container(
-              padding: EdgeInsets.all(isCollapsed ? 12 : 14),
-              child: Row(
-                mainAxisAlignment: isCollapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    networkSync.isOnline ? Icons.cloud_done : Icons.cloud_off,
-                    color: networkSync.isOnline ? AppTheme.accentEmerald : Colors.amber,
-                    size: 20,
-                  ),
-                  if (!isCollapsed) ...[
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            networkSync.isOnline ? 'REST API Auto-Sync' : 'Offline Mode',
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            networkSync.isOnline ? 'tasks.mdrealofficial.com' : 'Local Cached',
-                            style: TextStyle(fontSize: 11, color: isDark ? Colors.grey[400] : Colors.grey[600]),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Icon(Icons.refresh, size: 14, color: Colors.grey),
-                  ],
-                ],
-              ),
-            ),
-          ),
+
 
           // User Profile & Settings Section
           const Divider(height: 1),
@@ -285,7 +247,7 @@ class CollapsibleSidebar extends StatelessWidget {
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Task Flow App v1.0.30',
+                'Task Flow App v1.0.31',
                 style: TextStyle(fontSize: 10, color: isDark ? Colors.grey[500] : Colors.grey[400]),
               ),
             ),

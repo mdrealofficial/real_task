@@ -126,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
           // Mobile Bottom Dock (on small screens)
           bottomNavigationBar: isMobile
               ? BottomNavigationBar(
-                  currentIndex: navProvider.mobileTabIndex,
+                  currentIndex: navProvider.mobileTabIndex > 2 ? 0 : navProvider.mobileTabIndex,
                   onTap: (idx) {
                     navProvider.setMobileTabIndex(idx);
                     if (idx == 0) {
@@ -135,9 +135,6 @@ class _MainScreenState extends State<MainScreen> {
                       navProvider.setViewMode(ViewMode.kanban);
                     } else if (idx == 2) {
                       _showQuickCreateTaskDialog(context);
-                    } else if (idx == 3) {
-                      final taskProvider = Provider.of<TaskProvider>(context, listen: false);
-                      Provider.of<NetworkSyncService>(context, listen: false).triggerAutoSync(taskProvider: taskProvider);
                     }
                   },
                   type: BottomNavigationBarType.fixed,
@@ -146,7 +143,6 @@ class _MainScreenState extends State<MainScreen> {
                     BottomNavigationBarItem(icon: Icon(Icons.today), label: 'Today'),
                     BottomNavigationBarItem(icon: Icon(Icons.view_kanban), label: 'Kanban'),
                     BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: 'Add'),
-                    BottomNavigationBarItem(icon: Icon(Icons.sync), label: 'Sync'),
                   ],
                 )
               : null,
