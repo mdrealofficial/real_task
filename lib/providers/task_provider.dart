@@ -3,6 +3,8 @@ import 'package:uuid/uuid.dart';
 import '../models/task_model.dart';
 import '../models/checklist_model.dart';
 import '../models/recurrence_model.dart';
+import '../services/api_service.dart';
+import '../services/auth_service.dart';
 import '../services/storage_service.dart';
 import '../services/widget_service.dart';
 
@@ -15,6 +17,7 @@ class TaskProvider extends ChangeNotifier {
   TaskFilterCategory _activeCategory = TaskFilterCategory.today;
   String? _selectedTag;
   final Uuid _uuid = const Uuid();
+  AuthService? _authService;
 
   List<Task> get tasks => _tasks;
   bool get isLoading => _isLoading;
@@ -24,6 +27,32 @@ class TaskProvider extends ChangeNotifier {
 
   TaskProvider() {
     _init();
+  }
+
+  void updateAuthService(AuthService authService) {
+    final wasLoggedIn = _authService?.isLoggedIn ?? false;
+    _authService = authService;
+
+    if (authService.isLoggedIn && !wasLoggedIn) {
+      syncWithServer();
+    }
+  }
+
+  Future<void> syncWithServer() async {
+    if (_authService != null && _authService!.isLoggedIn) {
+      final userId = _authService!.currentUserId!;
+      final token = _authService!.authToken ?? '';
+      try {
+        final syncedTasks = await ApiService.syncTasks(userId, token, _tasks);
+        if (syncedTasks != null) {
+          _tasks = syncedTasks;
+          await StorageService.saveTasks(_tasks);
+          notifyListeners();
+        }
+      } catch (e) {
+        debugPrint('Task Sync Error: $e');
+      }
+    }
   }
 
   Future<void> _init() async {
@@ -132,6 +161,7 @@ class TaskProvider extends ChangeNotifier {
     _tasks.insert(0, task);
     await StorageService.saveTasks(_tasks);
     notifyListeners();
+    syncWithServer();
   }
 
   Future<void> createQuickTask(String title, {TaskPriority priority = TaskPriority.p3}) async {
@@ -151,6 +181,7 @@ class TaskProvider extends ChangeNotifier {
       _tasks[index] = task.copyWith(updatedAt: DateTime.now());
       await StorageService.saveTasks(_tasks);
       notifyListeners();
+      syncWithServer();
     }
   }
 
@@ -174,6 +205,7 @@ class TaskProvider extends ChangeNotifier {
       _tasks[index] = updatedTask;
       await StorageService.saveTasks(_tasks);
       notifyListeners();
+      syncWithServer();
     }
   }
 
@@ -231,6 +263,7 @@ class TaskProvider extends ChangeNotifier {
       );
       await StorageService.saveTasks(_tasks);
       notifyListeners();
+      syncWithServer();
     }
   }
 
@@ -238,6 +271,7 @@ class TaskProvider extends ChangeNotifier {
     _tasks.removeWhere((t) => t.id == taskId);
     await StorageService.saveTasks(_tasks);
     notifyListeners();
+    syncWithServer();
   }
 
   Future<void> toggleChecklistItem(String taskId, String itemId) async {

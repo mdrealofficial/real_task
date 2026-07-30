@@ -26,7 +26,14 @@ class TaskFlowApp extends StatelessWidget {
           create: (context) => NetworkSyncService(Provider.of<AuthService>(context, listen: false)),
           update: (context, authService, previous) => previous ?? NetworkSyncService(authService),
         ),
-        ChangeNotifierProvider(create: (_) => TaskProvider()),
+        ChangeNotifierProxyProvider<AuthService, TaskProvider>(
+          create: (_) => TaskProvider(),
+          update: (context, authService, taskProvider) {
+            final tp = taskProvider ?? TaskProvider();
+            tp.updateAuthService(authService);
+            return tp;
+          },
+        ),
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
         ChangeNotifierProvider(create: (_) => AlarmService()),
       ],
