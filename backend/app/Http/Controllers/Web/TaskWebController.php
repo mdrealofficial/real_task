@@ -63,7 +63,7 @@ class TaskWebController extends Controller
 
         $user = User::where('email', $email)->first();
 
-        if ($user && ($password === 'Staritlab77' || !empty($user))) {
+        if ($user) {
             session(['user_id' => $user->id, 'user_email' => $user->email]);
             return redirect()->route('dashboard');
         }

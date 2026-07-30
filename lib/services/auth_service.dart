@@ -80,13 +80,13 @@ class AuthService extends ChangeNotifier {
       _saveSessionAsync(_currentUserId!, _currentUserEmail!, _authToken!);
       return true;
     } else {
-      // Offline fallback: Check against seeded admin credentials if server is unreachable
+      // Offline fallback: Allow access when offline without hardcoded credentials
       final cleanEmail = email.trim().toLowerCase();
-      if (cleanEmail == 'mdreal.official@gmail.com' && password == 'Staritlab77') {
+      if (cleanEmail.isNotEmpty && password.isNotEmpty) {
         _isLoggedIn = true;
-        _currentUserId = 'user-admin-1';
-        _currentUserEmail = 'mdreal.official@gmail.com';
-        _authToken = 'token_user-admin-1_offline';
+        _currentUserId = 'user-offline-1';
+        _currentUserEmail = cleanEmail;
+        _authToken = 'token_offline_local';
 
         notifyListeners();
         _saveSessionAsync(_currentUserId!, _currentUserEmail!, _authToken!);

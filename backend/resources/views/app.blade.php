@@ -204,11 +204,11 @@
       <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" value="mdreal.official@gmail.com" required>
+          <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" value="" required>
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" value="Staritlab77" required>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" value="" required>
         </div>
         <div id="loginError" style="color: var(--accent-rose); font-size: 12px; margin-bottom: 14px; display: none;"></div>
         <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>

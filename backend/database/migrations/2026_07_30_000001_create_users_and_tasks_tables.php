@@ -41,8 +41,8 @@ return new class extends Migration
         // Seed Default Admin User
         DB::table('users')->insert([
             'id' => 'user-admin-1',
-            'email' => 'mdreal.official@gmail.com',
-            'password_hash' => Hash::make('Staritlab77'),
+            'email' => env('ADMIN_DEFAULT_EMAIL', 'admin@example.com'),
+            'password_hash' => Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'secret123')),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

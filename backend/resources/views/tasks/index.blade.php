@@ -37,13 +37,13 @@
     <div class="sidebar-footer">
       <div class="user-info">
         <div class="avatar">{{ strtoupper(substr(session('user_email', 'admin'), 0, 1)) }}</div>
-        <div class="user-email-text" style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ session('user_email', 'mdreal.official@gmail.com') }}</div>
+        <div class="user-email-text" style="flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ session('user_email', 'User') }}</div>
       </div>
       <div style="display:flex; justify-content:space-between; gap:6px;">
         <button class="btn btn-outline" onclick="toggleTheme()" style="flex:1;"><i class="fa-solid fa-moon"></i></button>
         <a href="{{ route('logout') }}" class="btn btn-outline" style="flex:1; color: var(--accent-rose);"><i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
-      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.1</div>
+      <div class="version-text" style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:8px;">Backend v1.1.2</div>
     </div>
   </aside>
 

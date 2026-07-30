@@ -17,12 +17,12 @@
       @csrf
       <div class="form-group" style="margin-bottom: 18px;">
         <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 8px;">Email Address</label>
-        <input type="email" name="email" class="form-control" placeholder="name@example.com" value="mdreal.official@gmail.com" required style="width: 100%; padding: 12px 14px; font-size: 14px; background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 10px; outline: none;">
+        <input type="email" name="email" class="form-control" placeholder="name@example.com" value="{{ old('email') }}" required style="width: 100%; padding: 12px 14px; font-size: 14px; background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 10px; outline: none;">
       </div>
       
       <div class="form-group" style="margin-bottom: 22px;">
         <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 8px;">Password</label>
-        <input type="password" name="password" class="form-control" placeholder="••••••••" value="Staritlab77" required style="width: 100%; padding: 12px 14px; font-size: 14px; background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 10px; outline: none;">
+        <input type="password" name="password" class="form-control" placeholder="••••••••" value="" required style="width: 100%; padding: 12px 14px; font-size: 14px; background: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 10px; outline: none;">
       </div>
 
       @if($errors->has('email'))
