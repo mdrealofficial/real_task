@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../models/task_model.dart';
 import '../../providers/navigation_provider.dart';
 import '../../providers/task_provider.dart';
+import '../../services/alarm_service.dart';
 import '../../services/auth_service.dart';
 import '../../services/network_sync_service.dart';
 import '../../theme/app_theme.dart';
@@ -233,6 +234,11 @@ class CollapsibleSidebar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
+                    icon: const Icon(Icons.notifications_active_outlined, size: 18, color: AppTheme.accentCyan),
+                    onPressed: () => Provider.of<AlarmService>(context, listen: false).triggerTestAlarm(),
+                    tooltip: 'Test Alarm Sound',
+                  ),
+                  IconButton(
                     icon: const Icon(Icons.lock_reset, size: 18),
                     onPressed: () => showDialog(context: context, builder: (_) => const ChangePasswordDialog()),
                     tooltip: 'Change Password',
@@ -253,7 +259,7 @@ class CollapsibleSidebar extends StatelessWidget {
             const SizedBox(height: 4),
             Center(
               child: Text(
-                'Task Flow v1.0.5',
+                'Task Flow v1.0.6',
                 style: TextStyle(fontSize: 10, color: isDark ? Colors.grey[500] : Colors.grey[400]),
               ),
             ),

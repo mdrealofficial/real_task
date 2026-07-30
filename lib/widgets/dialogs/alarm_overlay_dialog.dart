@@ -54,6 +54,17 @@ class AlarmOverlayDialog extends StatelessWidget {
                 style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
               ),
             ],
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryIndigo.withValues(alpha: 0.15),
+                foregroundColor: AppTheme.primaryIndigo,
+                elevation: 0,
+              ),
+              onPressed: () => alarmService.playAlarmSound(),
+              icon: const Icon(Icons.volume_up, size: 16),
+              label: const Text('🔊 Replay Alarm Sound'),
+            ),
             const SizedBox(height: 24),
             Row(
               children: [
