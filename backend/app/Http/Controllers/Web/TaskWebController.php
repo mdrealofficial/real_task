@@ -104,7 +104,7 @@ class TaskWebController extends Controller
     public function toggleStatus(Request $request, $id)
     {
         $task = Task::findOrFail($id);
-        $task->status = ($task.status === 'done') ? 'todo' : 'done';
+        $task->status = ($task->status === 'done') ? 'todo' : 'done';
         if ($task->status === 'done') {
             $task->completed_at = now();
         } else {
