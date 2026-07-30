@@ -8,10 +8,12 @@ import 'auth_service.dart';
 class NetworkSyncService extends ChangeNotifier {
   final AuthService _authService;
   late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+  Timer? _pollingTimer;
 
   bool _isSyncing = false;
   bool _isOnline = true;
   DateTime? _lastSyncedAt;
+  TaskProvider? _attachedTaskProvider;
 
   bool get isSyncing => _isSyncing;
   bool get isOnline => _isOnline;
@@ -19,6 +21,7 @@ class NetworkSyncService extends ChangeNotifier {
 
   NetworkSyncService(this._authService) {
     _initConnectivityListener();
+    _startContinuousRealtimeSync();
   }
 
   void _initConnectivityListener() {
@@ -28,32 +31,43 @@ class NetworkSyncService extends ChangeNotifier {
       notifyListeners();
 
       if (hasConnection && _authService.isLoggedIn) {
-        // Instant Auto-Sync over HTTPS REST API when network is available
         triggerAutoSync();
       }
     });
   }
 
+  void _startContinuousRealtimeSync() {
+    _pollingTimer?.cancel();
+    // 3-Second Background Auto-Polling for Instant Cross-Platform Synchronization
+    _pollingTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (_isOnline && _authService.isLoggedIn && !_isSyncing) {
+        triggerAutoSync(taskProvider: _attachedTaskProvider);
+      }
+    });
+  }
+
   Future<void> triggerAutoSync({TaskProvider? taskProvider}) async {
+    if (taskProvider != null) {
+      _attachedTaskProvider = taskProvider;
+    }
     if (_isSyncing || !_authService.isLoggedIn) return;
 
     _isSyncing = true;
-    notifyListeners();
 
     try {
       final userId = _authService.currentUserId!;
       final token = _authService.authToken ?? '';
-      final currentTasks = taskProvider?.tasks ?? [];
+      final currentTasks = _attachedTaskProvider?.tasks ?? [];
 
       final syncedTasks = await ApiService.syncTasks(userId, token, currentTasks);
-      if (syncedTasks != null && taskProvider != null) {
-        taskProvider.replaceTasksFromSync(syncedTasks);
+      if (syncedTasks != null && _attachedTaskProvider != null) {
+        _attachedTaskProvider!.replaceTasksFromSync(syncedTasks);
       }
 
       _lastSyncedAt = DateTime.now();
       _isOnline = true;
     } catch (e) {
-      debugPrint('Auto Sync Error: $e');
+      debugPrint('Real-time Auto Sync Error: $e');
     } finally {
       _isSyncing = false;
       notifyListeners();
@@ -62,6 +76,7 @@ class NetworkSyncService extends ChangeNotifier {
 
   @override
   void dispose() {
+    _pollingTimer?.cancel();
     _connectivitySubscription.cancel();
     super.dispose();
   }

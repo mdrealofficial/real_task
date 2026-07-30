@@ -209,6 +209,24 @@
     function closeCreateModal() {
       document.getElementById('createModal').classList.remove('show');
     }
+
+    // Instant Cross-Platform Real-Time Auto Sync (Polls every 3 seconds)
+    setInterval(function() {
+      fetch('/api/tasks?user_id=user-admin-1', {
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          const currentHash = JSON.stringify(data.map(t => t.id + ':' + t.status + ':' + t.title + ':' + t.updated_at));
+          if (window.lastTaskStateHash && window.lastTaskStateHash !== currentHash) {
+            window.location.reload();
+          }
+          window.lastTaskStateHash = currentHash;
+        }
+      })
+      .catch(function(err) {});
+    }, 3000);
   </script>
   @yield('scripts')
 </body>

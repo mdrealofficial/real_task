@@ -146,10 +146,15 @@ class TaskProvider extends ChangeNotifier {
   }
   
   void replaceTasksFromSync(List<Task> syncedTasks) {
-    _tasks = syncedTasks;
-    _updateHomeWidget();
-    StorageService.saveTasks(_tasks);
-    notifyListeners();
+    final currentHash = _tasks.map((t) => '${t.id}:${t.status.name}:${t.title}:${t.updatedAt}').join('|');
+    final newHash = syncedTasks.map((t) => '${t.id}:${t.status.name}:${t.title}:${t.updatedAt}').join('|');
+
+    if (currentHash != newHash) {
+      _tasks = syncedTasks;
+      _updateHomeWidget();
+      StorageService.saveTasks(_tasks);
+      notifyListeners();
+    }
   }
 
   void _updateHomeWidget() {
